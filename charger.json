@@ -439,7 +439,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "repeat": "2",
+        "repeat": "3",
         "crontab": "",
         "once": true,
         "onceDelay": "2.8",
