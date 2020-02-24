@@ -1,4 +1,4 @@
-NiMH_charger_logger v 1.0
+NiMH_charger_logger v 2.0
 =========================
 
 This *flow* uses the RD6006 to get a simple but complete NiMH battery charger-logger.
