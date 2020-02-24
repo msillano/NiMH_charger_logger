@@ -36,3 +36,5 @@ Every charge cicle generates a new mySQL table, with records stored every 5 sec,
   (see [https://flows.nodered.org/node/node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql "node-red-node-mysql"))
 - Copy the contents of the file [charger.json](charger.json "NiMH_charger_RD6006") to the clipboard and import it into a new flow in ***node-red***.
 - The values in *'SLOW config'* and *'FAST config'* nodes can be modified to suit your needs.
+- Update 'configuration nodes': 'batteries' for mySQL and 'RD6006' for MODBUS serial. Here my configuration:
+![](images/2020-02-24.115242.shot.png)
