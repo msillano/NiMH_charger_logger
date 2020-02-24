@@ -1,183 +1,15 @@
 [
     {
-        "id": "37c99bfe.954034",
+        "id": "a6941e78.e5a6b",
         "type": "tab",
         "label": "NiMH Battery Charger",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "761c9f09.692fa",
-        "type": "modbus-client",
-        "z": "",
-        "name": "RD6006",
-        "clienttype": "simpleser",
-        "bufferCommands": false,
-        "stateLogEnabled": false,
-        "tcpHost": "127.0.0.1",
-        "tcpPort": "14502",
-        "tcpType": "DEFAULT",
-        "serialPort": "COM10",
-        "serialType": "RTU-BUFFERD",
-        "serialBaudrate": "115200",
-        "serialDatabits": "8",
-        "serialStopbits": "1",
-        "serialParity": "none",
-        "serialConnectionDelay": "100",
-        "unit_id": "1",
-        "commandDelay": "1",
-        "clientTimeout": "3000",
-        "reconnectOnTimeout": true,
-        "reconnectTimeout": "6000",
-        "parallelUnitIdsAllowed": false
-    },
-    {
-        "id": "964415af.8c1f38",
-        "type": "ui_group",
-        "z": "",
-        "name": "rtdata",
-        "tab": "85729fc8.609c1",
-        "order": 1,
-        "disp": false,
-        "width": "8"
-    },
-    {
-        "id": "ea214415.095c28",
-        "type": "ui_group",
-        "z": "",
-        "name": "main",
-        "tab": "85729fc8.609c1",
-        "order": 3,
-        "disp": false,
-        "width": "8"
-    },
-    {
-        "id": "12ec64dd.ff2a6b",
-        "type": "ui_group",
-        "z": "",
-        "name": "Group 2",
-        "tab": "85729fc8.609c1",
-        "order": 2,
-        "disp": false,
-        "width": "8"
-    },
-    {
-        "id": "746dcf19.ccb99",
-        "type": "MySQLdatabase",
-        "z": "",
-        "host": "127.0.0.1",
-        "port": "3306",
-        "db": "batteries",
-        "tz": "+1"
-    },
-    {
-        "id": "85729fc8.609c1",
-        "type": "ui_tab",
-        "z": "",
-        "name": "NiMH charger",
-        "icon": "dashboard",
-        "order": 3
-    },
-    {
-        "id": "1fbb4390.93f3ec",
-        "type": "ui_base",
-        "theme": {
-            "name": "theme-light",
-            "lightTheme": {
-                "default": "#0094CE",
-                "baseColor": "#0094CE",
-                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
-                "edited": false,
-                "reset": false
-            },
-            "darkTheme": {
-                "default": "#097479",
-                "baseColor": "#097479",
-                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
-                "edited": false
-            },
-            "customTheme": {
-                "name": "Untitled Theme 1",
-                "default": "#4B7930",
-                "baseColor": "#4B7930",
-                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
-            },
-            "themeState": {
-                "base-color": {
-                    "default": "#0094CE",
-                    "value": "#0094CE",
-                    "edited": false
-                },
-                "page-titlebar-backgroundColor": {
-                    "value": "#0094CE",
-                    "edited": false
-                },
-                "page-backgroundColor": {
-                    "value": "#fafafa",
-                    "edited": false
-                },
-                "page-sidebar-backgroundColor": {
-                    "value": "#ffffff",
-                    "edited": false
-                },
-                "group-textColor": {
-                    "value": "#1bbfff",
-                    "edited": false
-                },
-                "group-borderColor": {
-                    "value": "#ffffff",
-                    "edited": false
-                },
-                "group-backgroundColor": {
-                    "value": "#ffffff",
-                    "edited": false
-                },
-                "widget-textColor": {
-                    "value": "#111111",
-                    "edited": false
-                },
-                "widget-backgroundColor": {
-                    "value": "#0094ce",
-                    "edited": false
-                },
-                "widget-borderColor": {
-                    "value": "#ffffff",
-                    "edited": false
-                },
-                "base-font": {
-                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
-                }
-            },
-            "angularTheme": {
-                "primary": "indigo",
-                "accents": "blue",
-                "warn": "red",
-                "background": "grey"
-            }
-        },
-        "site": {
-            "name": "Node-RED Dashboard",
-            "hideToolbar": "false",
-            "allowSwipe": "false",
-            "lockMenu": "false",
-            "allowTempTheme": "true",
-            "dateFormat": "DD/MM/YYYY",
-            "sizes": {
-                "sx": 48,
-                "sy": 48,
-                "gx": 6,
-                "gy": 6,
-                "cx": 6,
-                "cy": 6,
-                "px": 0,
-                "py": 0
-            }
-        }
-    },
-    {
-        "id": "4ecbf380.5aea1c",
+        "id": "eb00b8be.a10588",
         "type": "config",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "SLOW config",
         "properties": [
             {
@@ -211,9 +43,9 @@
         "wires": []
     },
     {
-        "id": "8012b697.d76d08",
+        "id": "cf633188.0fa35",
         "type": "inject",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Polling data",
         "topic": "",
         "payload": "",
@@ -226,14 +58,14 @@
         "y": 300,
         "wires": [
             [
-                "f0b7984.95aac68"
+                "d0f9df67.29c5a"
             ]
         ]
     },
     {
-        "id": "f0b7984.95aac68",
+        "id": "d0f9df67.29c5a",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC3: get RT registers B",
         "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':8, 'quantity': 11 }\nreturn msg;",
         "outputs": 1,
@@ -242,19 +74,19 @@
         "y": 360,
         "wires": [
             [
-                "4782a591.eed76c"
+                "29dec06d.5e642"
             ]
         ]
     },
     {
-        "id": "4782a591.eed76c",
+        "id": "29dec06d.5e642",
         "type": "modbus-flex-getter",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
         "logIOActivities": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
@@ -262,17 +94,17 @@
         "y": 360,
         "wires": [
             [
-                "d5170b3b.68cfe8"
+                "1b1661c5.46ee3e"
             ],
             [
-                "47722dac.8822c4"
+                "e9832b92.c9ac08"
             ]
         ]
     },
     {
-        "id": "d5170b3b.68cfe8",
+        "id": "1b1661c5.46ee3e",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Save RT data",
         "func": "flow.set(\"abatt\", msg.payload[3]/1000);\nvar e = flow.get(\"error\");\nflow.set(\"error\", (e | msg.payload[8]));\nflow.set(\"onoff\", msg.payload[10]);\n",
         "outputs": 0,
@@ -282,9 +114,9 @@
         "wires": []
     },
     {
-        "id": "47722dac.8822c4",
+        "id": "e9832b92.c9ac08",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC3: get RT registers A",
         "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':32, 'quantity': 8 }\nreturn msg;",
         "outputs": 1,
@@ -293,19 +125,19 @@
         "y": 260,
         "wires": [
             [
-                "6351ffe3.05cea"
+                "549e1a1f.6111c4"
             ]
         ]
     },
     {
-        "id": "6351ffe3.05cea",
+        "id": "549e1a1f.6111c4",
         "type": "modbus-flex-getter",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
         "logIOActivities": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
@@ -313,15 +145,15 @@
         "y": 260,
         "wires": [
             [
-                "ffd075b7.e79b68"
+                "5063a9db.ad29e8"
             ],
             []
         ]
     },
     {
-        "id": "ffd075b7.e79b68",
+        "id": "5063a9db.ad29e8",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Save RT data",
         "func": "flow.set(\"bmode\", msg.payload[0]);\nvar vbx = 0;\nif ( flow.get(\"smart\") === 0){\n vbx = msg.payload[1];\n}\nelse {\n vbx =  msg.payload[1] - (flow.get(\"abatt\")*flow.get(\"ri\"))/10;\n}      \nflow.set(\"vbatt\", vbx/100);\nflow.set(\"tbatt\", msg.payload[3]);\nvar tmp =(msg.payload[6]*65536 + msg.payload[7])/1000;\nflow.set(\"ahbatt\", tmp - flow.get(\"startah\"));\n\nmsg.payload = [\"vb, v, ri, O\", msg.payload[1], vbx, flow.get(\"ri\"), flow.get(\"abatt\")   ];\nreturn msg; ",
         "outputs": 1,
@@ -333,9 +165,9 @@
         ]
     },
     {
-        "id": "52f9259d.9eca3c",
+        "id": "8674275.0484ed8",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Format RT data",
         "func": "var tmp =flow.get(\"vbatt\");\nvar msg1 = { payload: tmp.toFixed(2), topic: ' V'};\nvar tmp =flow.get(\"abatt\");\nvar msg2 = { payload: tmp.toFixed(3), topic: ' A'};\nvar tmp =flow.get(\"ahbatt\");\nvar msg3 = { payload: tmp.toFixed(3), topic: ' Ah'};\nvar msg4 = { payload: flow.get(\"tbatt\"), topic: ' °C'};\nreturn ([msg1, msg2, msg3, msg4]);\n",
         "outputs": 4,
@@ -344,24 +176,24 @@
         "y": 520,
         "wires": [
             [
-                "5f3f8b92.792324"
+                "fd22b99d.08aa88"
             ],
             [
-                "e48b5c93.60291"
+                "dc7608e6.31f5b8"
             ],
             [
-                "4f52b1f2.f1d54"
+                "4360492f.9f72b8"
             ],
             [
-                "d88140e6.d96fb"
+                "70c00fe0.3b43"
             ]
         ]
     },
     {
-        "id": "e48b5c93.60291",
+        "id": "dc7608e6.31f5b8",
         "type": "ui_text",
-        "z": "37c99bfe.954034",
-        "group": "964415af.8c1f38",
+        "z": "a6941e78.e5a6b",
+        "group": "3b92f60b.0be03a",
         "order": 3,
         "width": "4",
         "height": "1",
@@ -374,10 +206,10 @@
         "wires": []
     },
     {
-        "id": "4f52b1f2.f1d54",
+        "id": "4360492f.9f72b8",
         "type": "ui_text",
-        "z": "37c99bfe.954034",
-        "group": "964415af.8c1f38",
+        "z": "a6941e78.e5a6b",
+        "group": "3b92f60b.0be03a",
         "order": 2,
         "width": "4",
         "height": "1",
@@ -390,10 +222,10 @@
         "wires": []
     },
     {
-        "id": "d88140e6.d96fb",
+        "id": "70c00fe0.3b43",
         "type": "ui_text",
-        "z": "37c99bfe.954034",
-        "group": "964415af.8c1f38",
+        "z": "a6941e78.e5a6b",
+        "group": "3b92f60b.0be03a",
         "order": 4,
         "width": "4",
         "height": "1",
@@ -406,10 +238,10 @@
         "wires": []
     },
     {
-        "id": "5f3f8b92.792324",
+        "id": "fd22b99d.08aa88",
         "type": "ui_text",
-        "z": "37c99bfe.954034",
-        "group": "964415af.8c1f38",
+        "z": "a6941e78.e5a6b",
+        "group": "3b92f60b.0be03a",
         "order": 1,
         "width": "4",
         "height": "1",
@@ -422,9 +254,9 @@
         "wires": []
     },
     {
-        "id": "f3ec11d1.d7145",
+        "id": "e32dcdc.ea4c73",
         "type": "comment",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Loop RT data read",
         "info": "gets RT data from RD6006 and store it in following\nflow variables:\nvbatt  - for Vout\nabatt  - for Iout\ntbatt  - for Temperature\nahbatt - for Ah capacity\nerror  - for errorcode\nonoff  - for out switch ",
         "x": 110,
@@ -432,14 +264,14 @@
         "wires": []
     },
     {
-        "id": "586c43c9.192ecc",
+        "id": "89cd8b44.496388",
         "type": "inject",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "GUI refresh",
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "repeat": "3",
+        "repeat": "2",
         "crontab": "",
         "once": true,
         "onceDelay": "2.8",
@@ -447,19 +279,19 @@
         "y": 540,
         "wires": [
             [
-                "52f9259d.9eca3c",
-                "a45678d0.af0fa8",
-                "437ab2ba.4e4a8c",
-                "920f96f6.c81538"
+                "8674275.0484ed8",
+                "da286519.40ff18",
+                "b4cf0442.c1f578",
+                "bd96c6b8.2b96e8"
             ]
         ]
     },
     {
-        "id": "5bc231e1.28aa2",
+        "id": "6ece52ed.2265bc",
         "type": "ui_chart",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "charge chart",
-        "group": "ea214415.095c28",
+        "group": "ae99da26.9b2e78",
         "order": 5,
         "width": "8",
         "height": "5",
@@ -500,9 +332,9 @@
         ]
     },
     {
-        "id": "1c22743f.fbed2c",
+        "id": "fad9e97a.30cc78",
         "type": "inject",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "manual reset chart",
         "topic": "",
         "payload": "0",
@@ -515,14 +347,14 @@
         "y": 700,
         "wires": [
             [
-                "f83e137f.c4ac9"
+                "9479c711.46cfe8"
             ]
         ]
     },
     {
-        "id": "f83e137f.c4ac9",
+        "id": "9479c711.46cfe8",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "reset chart msg",
         "func": "msg.payload = [];\nreturn msg;",
         "outputs": 1,
@@ -531,16 +363,16 @@
         "y": 720,
         "wires": [
             [
-                "5bc231e1.28aa2"
+                "6ece52ed.2265bc"
             ]
         ]
     },
     {
-        "id": "3f13f9b6.e0c586",
+        "id": "4dc5c201.d22f8c",
         "type": "ui_button",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
-        "group": "12ec64dd.ff2a6b",
+        "group": "89f6f9eb.df45b8",
         "order": 2,
         "width": "3",
         "height": "2",
@@ -557,18 +389,18 @@
         "y": 800,
         "wires": [
             [
-                "b8a82d99.2938e"
+                "6b8a66e7.5d6518"
             ]
         ]
     },
     {
-        "id": "28a3fbdf.f44114",
+        "id": "719424fe.3f25fc",
         "type": "ui_text_input",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "label": "Capacity",
         "tooltip": "",
-        "group": "12ec64dd.ff2a6b",
+        "group": "89f6f9eb.df45b8",
         "order": 3,
         "width": "2",
         "height": "1",
@@ -580,18 +412,18 @@
         "y": 960,
         "wires": [
             [
-                "441c91d3.1e29f"
+                "822d9e30.4da77"
             ]
         ]
     },
     {
-        "id": "36b54642.d3eaaa",
+        "id": "9ffb5f1b.6efed",
         "type": "ui_text_input",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "label": "Battery type",
         "tooltip": "infos about the battery",
-        "group": "12ec64dd.ff2a6b",
+        "group": "89f6f9eb.df45b8",
         "order": 1,
         "width": "5",
         "height": "1",
@@ -603,19 +435,19 @@
         "y": 1080,
         "wires": [
             [
-                "73ae9fb.327326"
+                "17456d58.abcff3"
             ]
         ]
     },
     {
-        "id": "f0c6c1dd.b01fc",
+        "id": "cb7c8397.ac97f",
         "type": "ui_dropdown",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "label": "Iset",
         "tooltip": "",
         "place": "Select option",
-        "group": "12ec64dd.ff2a6b",
+        "group": "89f6f9eb.df45b8",
         "order": 4,
         "width": "3",
         "height": "1",
@@ -663,14 +495,14 @@
         "y": 1020,
         "wires": [
             [
-                "d5bd380e.affbf8"
+                "e43dfa65.6d0548"
             ]
         ]
     },
     {
-        "id": "841e2685.576608",
+        "id": "e981fa5.1942508",
         "type": "comment",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "NiMH Battery Charger",
         "info": "This ***node-red*** application uses **RD6006** to get a full feauturd NiMH battery charger.\n\nThe input data are the *battery capacity* [mAh] and the required max *charge current*, as function of the capacity.\nThe measured data are:\n\n- Battery tension \n- Battery current\n- Battery temperature\n- Battery charge\n- Elapsed time\n\nOn screen, are shoved data in numeric format and as graph.\nThe charge is done to constant current from 0.1C to 1.2C, user defined.\nThe end of charge is triggered by one of following events:\n\n- Max charge exceeded\n- Max time exceeded\n- Max temperature exceeded\n- Max tension top reached \n\nAll data are also stored in a mySQL database.",
         "x": 120,
@@ -678,9 +510,9 @@
         "wires": []
     },
     {
-        "id": "b8a82d99.2938e",
+        "id": "6b8a66e7.5d6518",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "toggle",
         "func": "if (( msg.payload == \"click\") && (flow.get(\"run\")) == 0){\n    flow.set(\"run\",1) ;\n    msg.payload = 1;\n    return msg;\n} \nflow.set(\"run\", 0) ;\nmsg.payload = 0;\nif (flow.get(\"error\") == 0) {\n    flow.set(\"error\", 128) ;\n    }\nreturn msg;\n",
         "outputs": 1,
@@ -689,15 +521,15 @@
         "y": 880,
         "wires": [
             [
-                "96e31c2b.742ce",
-                "437ab2ba.4e4a8c"
+                "fcf96f0b.59d63",
+                "b4cf0442.c1f578"
             ]
         ]
     },
     {
-        "id": "3bcef80f.b60bc8",
+        "id": "92ac7003.25202",
         "type": "inject",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "topic": "",
         "payload": "FAST",
@@ -706,18 +538,18 @@
         "crontab": "",
         "once": true,
         "onceDelay": "0.32",
-        "x": 130,
+        "x": 110,
         "y": 100,
         "wires": [
             [
-                "73277a19.fd1b64"
+                "7700ceb5.551eb"
             ]
         ]
     },
     {
-        "id": "96e31c2b.742ce",
+        "id": "fcf96f0b.59d63",
         "type": "switch",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "start / stop msg",
         "property": "payload",
         "propertyType": "msg",
@@ -740,19 +572,19 @@
         "y": 900,
         "wires": [
             [
-                "f83e137f.c4ac9",
-                "ab7de378.96101",
-                "d12527d2.c651a8"
+                "9479c711.46cfe8",
+                "d8b1bc27.60a0b",
+                "4bda794a.60b158"
             ],
             [
-                "379f5516.4b64da"
+                "4d337e37.2255b"
             ]
         ]
     },
     {
-        "id": "441c91d3.1e29f",
+        "id": "822d9e30.4da77",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "store",
         "func": "flow.set(\"bcap\", msg.payload);\nvar tmp =(msg.payload * flow.get(\"icap\"));\nflow.set(\"iset\", tmp);\nmsg.payload =  tmp ;\n",
         "outputs": 0,
@@ -762,9 +594,9 @@
         "wires": []
     },
     {
-        "id": "d5bd380e.affbf8",
+        "id": "e43dfa65.6d0548",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "store",
         "func": "flow.set(\"icap\", msg.payload);\nvar tmp =(msg.payload * flow.get(\"bcap\"));\nflow.set(\"iset\", tmp);\nmsg.payload =  tmp;\n",
         "outputs": 0,
@@ -774,9 +606,9 @@
         "wires": []
     },
     {
-        "id": "4c0077bb.f72c88",
+        "id": "6fd5870c.e29938",
         "type": "comment",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "loop GUI refresh",
         "info": "1- updates values on screen\n2- updates chart (only running)\n3- formats status line",
         "x": 100,
@@ -784,9 +616,9 @@
         "wires": []
     },
     {
-        "id": "5b5d5986.655898",
+        "id": "b71957ee.5ed468",
         "type": "comment",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "GUI user commands",
         "info": "1- executes START/STOP comands\n2- stores user values on flow variables",
         "x": 110,
@@ -794,9 +626,9 @@
         "wires": []
     },
     {
-        "id": "ab7de378.96101",
+        "id": "d8b1bc27.60a0b",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "reset start time, error",
         "func": "var tmp = Date.now();\nflow.set(\"starttime\", tmp);\nmsg.payload = tmp;\nflow.set(\"csec\",0);\nflow.set(\"cmin\",0);\nflow.set(\"error\",0);\n",
         "outputs": 0,
@@ -806,9 +638,9 @@
         "wires": []
     },
     {
-        "id": "425f1365.bd442c",
+        "id": "fd8856da.567148",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "runtime clock",
         "func": "\nvar esec = ((Date.now() - flow.get(\"starttime\"))/1000);\nif (flow.get(\"run\") === 0){\n    esec = flow.get(\"esect\");\n}\n    var tmin = (esec/60).toFixed(0);\n    var tsec = (esec % 60).toFixed(0);\n    flow.set(\"esect\", esec);\n    flow.set(\"cmin\", tmin);\n    flow.set(\"csec\", tsec);\n",
         "outputs": 0,
@@ -818,9 +650,9 @@
         "wires": []
     },
     {
-        "id": "920f96f6.c81538",
+        "id": "bd96c6b8.2b96e8",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "status message",
         "func": "var messg = flow.get(\"cmin\") + \":\"+ flow.get(\"csec\");\nmessg += ' / '+(flow.get(\"timemax\")/60).toFixed(0);\nmessg += ':'+(flow.get(\"timemax\") % 60).toFixed(0);\nif (flow.get(\"run\")===0)\n messg += ' stopped';\nelse\n   messg += ' running';\nif ((flow.get(\"error\") & 1) == 1)\n   messg += ' OVP';\nif ((flow.get(\"error\") & 2) == 2)\n   messg += ' OCP';\nif ((flow.get(\"error\") & 4) == 4)\n   messg += ' by RD6006';\nif ((flow.get(\"error\") & 8) == 8)\n   messg += ' max Charge';\nif ((flow.get(\"error\") & 16) == 16)\n   messg += ' max Time';\nif ((flow.get(\"error\") & 32) == 32)\n   messg += ' max Temperature';\nif ((flow.get(\"error\") & 64) == 64)\n   messg += ' pic V';\nif ((flow.get(\"error\") & 128) == 128)\n   messg += ' by user';\nmsg.payload = messg;\nreturn msg;",
         "outputs": 1,
@@ -829,15 +661,15 @@
         "y": 440,
         "wires": [
             [
-                "5e703b1c.e33cc4"
+                "565901af.bd74c"
             ]
         ]
     },
     {
-        "id": "5e703b1c.e33cc4",
+        "id": "565901af.bd74c",
         "type": "ui_template",
-        "z": "37c99bfe.954034",
-        "group": "964415af.8c1f38",
+        "z": "a6941e78.e5a6b",
+        "group": "3b92f60b.0be03a",
         "name": "status line",
         "order": 5,
         "width": 0,
@@ -853,9 +685,9 @@
         ]
     },
     {
-        "id": "a45678d0.af0fa8",
+        "id": "da286519.40ff18",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Format chart data",
         "func": "if (flow.get(\"run\")== 1){\nvar msg1 = { payload: flow.get(\"vbatt\").toFixed(2), topic: ' V'};\nvar msg2 = { payload: flow.get(\"abatt\").toFixed(3), topic: ' A'};\nvar msg3 = { payload: flow.get(\"ahbatt\").toFixed(3), topic: ' Ah'};\nvar msg4 = { payload: flow.get(\"tbatt\")/10, topic: ' °C'};\nreturn([msg1, msg2, msg3, msg4]);\n}\nelse {\n   return([]); \n}\n// return ([msg1, msg2, msg3, msg4]);",
         "outputs": 4,
@@ -864,23 +696,23 @@
         "y": 600,
         "wires": [
             [
-                "5bc231e1.28aa2"
+                "6ece52ed.2265bc"
             ],
             [
-                "5bc231e1.28aa2"
+                "6ece52ed.2265bc"
             ],
             [
-                "5bc231e1.28aa2"
+                "6ece52ed.2265bc"
             ],
             [
-                "5bc231e1.28aa2"
+                "6ece52ed.2265bc"
             ]
         ]
     },
     {
-        "id": "73ae9fb.327326",
+        "id": "17456d58.abcff3",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "store",
         "func": "flow.set(\"btype\", msg.payload);\n",
         "outputs": 0,
@@ -890,9 +722,9 @@
         "wires": []
     },
     {
-        "id": "c5a29ecd.d71a",
+        "id": "76d45016.5d1c3",
         "type": "comment",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Test ends charge",
         "info": "Polling for end charge conditions",
         "x": 100,
@@ -900,26 +732,26 @@
         "wires": []
     },
     {
-        "id": "fdcc1e7e.aa444",
+        "id": "835bc7b0.255c38",
         "type": "modbus-flex-write",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "x": 1010,
         "y": 920,
         "wires": [
             [],
             [
-                "89f19daf.2a557"
+                "f65a4907.e20058"
             ]
         ]
     },
     {
-        "id": "d12527d2.c651a8",
+        "id": "4bda794a.60b158",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC16: writes Vset Iset",
         "func": "msg.payload = { 'value' : [flow.get('vset'), flow.get('iset') ], 'fc': 16, 'unitid': 1, 'address': 8, 'quantity': 2 };\nreturn msg;",
         "outputs": 1,
@@ -928,31 +760,31 @@
         "y": 920,
         "wires": [
             [
-                "fdcc1e7e.aa444"
+                "835bc7b0.255c38"
             ]
         ]
     },
     {
-        "id": "95738373.9fe5b",
+        "id": "af1ee534.61dbb8",
         "type": "modbus-flex-write",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "x": 1010,
         "y": 1040,
         "wires": [
             [],
             [
-                "384e41c5.e19fae"
+                "d1df0dd0.49e55"
             ]
         ]
     },
     {
-        "id": "282d0ad9.ceebd6",
+        "id": "4451c58c.ecd9ec",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC 6:  set OUT ON",
         "func": "msg.payload = { 'value': 1, 'fc': 6, 'unitid': 1, 'address': 18 , 'quantity': 1 };\nreturn msg;",
         "outputs": 1,
@@ -961,14 +793,14 @@
         "y": 1040,
         "wires": [
             [
-                "95738373.9fe5b"
+                "af1ee534.61dbb8"
             ]
         ]
     },
     {
-        "id": "379f5516.4b64da",
+        "id": "4d337e37.2255b",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC 6:  set OUT OFF",
         "func": "msg.payload = { 'value': 0, 'fc': 6, 'unitid': 1, 'address': 18 , 'quantity': 1 };\nreturn msg;",
         "outputs": 1,
@@ -977,14 +809,14 @@
         "y": 1600,
         "wires": [
             [
-                "e8545db4.8b44"
+                "283f093b.9b2b06"
             ]
         ]
     },
     {
-        "id": "437ab2ba.4e4a8c",
+        "id": "b4cf0442.c1f578",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "button look",
         "func": "if (flow.get(\"run\") ==1) {\n    msg.background =\"TURQUOISE\";\n    msg.topic = \"STOP\";\n} else {\n    msg.background =\"LIME\";\n    msg.topic = \"START\";\n}\nmsg.enabled = flow.get(\"bmode\");\nreturn msg;",
         "outputs": 1,
@@ -993,14 +825,14 @@
         "y": 800,
         "wires": [
             [
-                "3f13f9b6.e0c586"
+                "4dc5c201.d22f8c"
             ]
         ]
     },
     {
-        "id": "21b918ab.97d1a8",
+        "id": "b94f90f9.31492",
         "type": "inject",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "test polling",
         "topic": "",
         "payload": "",
@@ -1013,14 +845,14 @@
         "y": 1680,
         "wires": [
             [
-                "e603c109.9ab12"
+                "ab8b3838.0bd978"
             ]
         ]
     },
     {
-        "id": "e603c109.9ab12",
+        "id": "ab8b3838.0bd978",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "test error conditions",
         "func": "var errors = 0;\nif (flow.get(\"run\")==1) {\n     errors = flow.get(\"error\");\n     if (flow.get(\"onoff\") === 0) \n        errors |= 4;\n    // if (flow.get(\"bmode\") === 0) \n    //    errors |= 4;\n     if (flow.get(\"ahbatt\") > flow.get(\"bcap\")) \n        errors |= 8;\n     if (flow.get(\"esect\") > flow.get(\"timemax\"))  \n        errors |= 16;\n     if (flow.get(\"tbatt\") > flow.get(\"tmax\"))  \n        errors |= 32;\n     var xv = flow.get(\"vbatt\");\n     if (xv >= flow.get(\"vpic\")){\n          flow.set(\"vpic\", vx);\n          flow.set(\"picn\", 0); \n          } else {\n          var pn =  flow.get(\"picn\");\n          if(pn > 3){\n                errors |= 64;\n              } else {\n                flow.set(\"picn\", +pn);   \n              }\n           } \n    flow.set(\"error\", errors);   \n    }\nmsg.payload = errors;\nreturn msg;",
         "outputs": 1,
@@ -1029,14 +861,14 @@
         "y": 1680,
         "wires": [
             [
-                "83854c88.fc684"
+                "5a8f797a.068358"
             ]
         ]
     },
     {
-        "id": "83854c88.fc684",
+        "id": "5a8f797a.068358",
         "type": "switch",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "if any error",
         "property": "payload",
         "propertyType": "msg",
@@ -1060,14 +892,14 @@
         "wires": [
             [],
             [
-                "a5ee2e0.a65c8d"
+                "974bb0e9.1fc64"
             ]
         ]
     },
     {
-        "id": "a5ee2e0.a65c8d",
+        "id": "974bb0e9.1fc64",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "RUN OFF",
         "func": "flow.set(\"run\", 0);\nreturn msg;",
         "outputs": 1,
@@ -1076,14 +908,14 @@
         "y": 1600,
         "wires": [
             [
-                "379f5516.4b64da"
+                "4d337e37.2255b"
             ]
         ]
     },
     {
-        "id": "54f573bb.083c8c",
+        "id": "e821c2b3.9658a",
         "type": "status",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "scope": null,
         "x": 120,
@@ -1093,9 +925,9 @@
         ]
     },
     {
-        "id": "89f19daf.2a557",
+        "id": "f65a4907.e20058",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC3: get ah ",
         "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':38, 'quantity': 2 }\nreturn msg;",
         "outputs": 1,
@@ -1104,19 +936,19 @@
         "y": 980,
         "wires": [
             [
-                "8389e4bd.973e28"
+                "e80a7490.f0d6c8"
             ]
         ]
     },
     {
-        "id": "8389e4bd.973e28",
+        "id": "e80a7490.f0d6c8",
         "type": "modbus-flex-getter",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
         "logIOActivities": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
@@ -1124,17 +956,17 @@
         "y": 980,
         "wires": [
             [
-                "697484c6.b07d0c"
+                "4d4a80a6.e819c"
             ],
             [
-                "282d0ad9.ceebd6"
+                "4451c58c.ecd9ec"
             ]
         ]
     },
     {
-        "id": "697484c6.b07d0c",
+        "id": "4d4a80a6.e819c",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "set ah offset",
         "func": "var tmp =(msg.payload[0]*65536 + msg.payload[1])/1000;\nflow.set(\"startah\", tmp);\n\n",
         "outputs": 0,
@@ -1144,26 +976,26 @@
         "wires": []
     },
     {
-        "id": "b3b65eb2.e2e0f",
+        "id": "c102809.389088",
         "type": "modbus-flex-write",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "x": 1010,
         "y": 1100,
         "wires": [
             [],
             [
-                "cbf54e80.4e32b"
+                "cc380eb7.1732f"
             ]
         ]
     },
     {
-        "id": "384e41c5.e19fae",
+        "id": "d1df0dd0.49e55",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC 6:  set  Iout1",
         "func": "msg.payload = { 'value': 100, 'fc': 6, 'unitid': 1, 'address': 9 , 'quantity': 1 };\nreturn msg;",
         "outputs": 1,
@@ -1172,14 +1004,14 @@
         "y": 1100,
         "wires": [
             [
-                "b3b65eb2.e2e0f"
+                "c102809.389088"
             ]
         ]
     },
     {
-        "id": "cbf54e80.4e32b",
+        "id": "cc380eb7.1732f",
         "type": "delay",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "pauseType": "delay",
         "timeout": "5",
@@ -1195,14 +1027,14 @@
         "y": 1100,
         "wires": [
             [
-                "7ae5d713.425d98"
+                "19a67f16.f93131"
             ]
         ]
     },
     {
-        "id": "7ae5d713.425d98",
+        "id": "19a67f16.f93131",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC3: get Vbatt1",
         "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':33, 'quantity': 1 }\nreturn msg;",
         "outputs": 1,
@@ -1211,19 +1043,19 @@
         "y": 1160,
         "wires": [
             [
-                "137e4f45.c99e31"
+                "8249f5c4.746ed8"
             ]
         ]
     },
     {
-        "id": "137e4f45.c99e31",
+        "id": "8249f5c4.746ed8",
         "type": "modbus-flex-getter",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
         "logIOActivities": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
@@ -1231,17 +1063,17 @@
         "y": 1160,
         "wires": [
             [
-                "c37f6d56.06042"
+                "ccf3ceae.6b1f8"
             ],
             [
-                "19cf8a50.08e116"
+                "25d084cb.d74a2c"
             ]
         ]
     },
     {
-        "id": "c37f6d56.06042",
+        "id": "ccf3ceae.6b1f8",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Save vbatt1",
         "func": "flow.set(\"vbatt1\", msg.payload[0]);\nreturn msg;\n",
         "outputs": 0,
@@ -1251,26 +1083,26 @@
         "wires": []
     },
     {
-        "id": "fd21a05a.44b35",
+        "id": "7f8ad6ce.d3f648",
         "type": "modbus-flex-write",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "x": 1010,
         "y": 1220,
         "wires": [
             [],
             [
-                "e0468209.716e5"
+                "7f226a4b.710864"
             ]
         ]
     },
     {
-        "id": "19cf8a50.08e116",
+        "id": "25d084cb.d74a2c",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC 6:  set  Iout2",
         "func": "msg.payload = { 'value': 300, 'fc': 6, 'unitid': 1, 'address': 9 , 'quantity': 1 };\nreturn msg;",
         "outputs": 1,
@@ -1279,14 +1111,14 @@
         "y": 1220,
         "wires": [
             [
-                "fd21a05a.44b35"
+                "7f8ad6ce.d3f648"
             ]
         ]
     },
     {
-        "id": "e0468209.716e5",
+        "id": "7f226a4b.710864",
         "type": "delay",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "pauseType": "delay",
         "timeout": "5",
@@ -1302,14 +1134,14 @@
         "y": 1220,
         "wires": [
             [
-                "c19c4870.68dd48"
+                "c2ff6f30.585a3"
             ]
         ]
     },
     {
-        "id": "c19c4870.68dd48",
+        "id": "c2ff6f30.585a3",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC3: get Vbatt2",
         "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':33, 'quantity': 1 }\nreturn msg;",
         "outputs": 1,
@@ -1318,19 +1150,19 @@
         "y": 1280,
         "wires": [
             [
-                "291edc12.5eee84"
+                "ddda26c0.312098"
             ]
         ]
     },
     {
-        "id": "291edc12.5eee84",
+        "id": "ddda26c0.312098",
         "type": "modbus-flex-getter",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
         "logIOActivities": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "useIOFile": false,
         "ioFile": "",
         "useIOForPayload": false,
@@ -1338,17 +1170,17 @@
         "y": 1280,
         "wires": [
             [
-                "51efcb73.8866e4"
+                "38e1c650.501e6a"
             ],
             [
-                "289ede61.322b92"
+                "3cf3442d.4480dc"
             ]
         ]
     },
     {
-        "id": "51efcb73.8866e4",
+        "id": "38e1c650.501e6a",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "elaboration ri",
         "func": "var xr = (msg.payload[0] - flow.get(\"vbatt1\"))/0.02;\nflow.set(\"ri\", xr);\nmsg.payload = [msg.payload[0], flow.get(\"vbatt1\"), xr, flow.get(\"abatt\") ]; \nreturn msg;\n",
         "outputs": 1,
@@ -1357,31 +1189,31 @@
         "y": 1280,
         "wires": [
             [
-                "d57f8169.a4a78"
+                "cbba0bb8.664138"
             ]
         ]
     },
     {
-        "id": "495c7c64.115254",
+        "id": "1df754f.2949eab",
         "type": "modbus-flex-write",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "x": 1010,
         "y": 1340,
         "wires": [
             [],
             [
-                "9c3d7ffe.cb1d3"
+                "82078c18.d972a"
             ]
         ]
     },
     {
-        "id": "289ede61.322b92",
+        "id": "3cf3442d.4480dc",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FC 6:  restores Iset",
         "func": "msg.payload = { 'value': flow.get(\"iset\"), 'fc': 6, 'unitid': 1, 'address': 9 , 'quantity': 1 };\nreturn msg;",
         "outputs": 1,
@@ -1390,14 +1222,14 @@
         "y": 1340,
         "wires": [
             [
-                "495c7c64.115254"
+                "1df754f.2949eab"
             ]
         ]
     },
     {
-        "id": "d57f8169.a4a78",
+        "id": "cbba0bb8.664138",
         "type": "debug",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1409,9 +1241,9 @@
         "wires": []
     },
     {
-        "id": "cd5e1461.b10d38",
+        "id": "c7217d6.b8b228",
         "type": "comment",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "START stuff",
         "info": "",
         "x": 990,
@@ -1419,23 +1251,23 @@
         "wires": []
     },
     {
-        "id": "ae50f76d.348b88",
+        "id": "26e3e830.76d998",
         "type": "mysql",
-        "z": "37c99bfe.954034",
-        "mydb": "746dcf19.ccb99",
+        "z": "a6941e78.e5a6b",
+        "mydb": "87c6018f.346ab",
         "name": "send record",
         "x": 990,
         "y": 1400,
         "wires": [
             [
-                "a8cda3b9.a0aa5"
+                "4b16ac64.b58414"
             ]
         ]
     },
     {
-        "id": "9c3d7ffe.cb1d3",
+        "id": "82078c18.d972a",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "query: new record",
         "func": "Date.prototype.yyyymmdd = function() {\n  var yyyy = this.getFullYear();\n  var mm = this.getMonth() < 9 ? \"0\" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based\n  var dd = this.getDate() < 10 ? \"0\" + this.getDate() : this.getDate();\n  return \"\".concat(yyyy).concat(mm).concat(dd);\n};\n\nDate.prototype.yyyymmddhhmm = function() {\n  var yyyymmdd = this.yyyymmdd();\n  var hh = this.getHours() < 10 ? \"0\" + this.getHours() : this.getHours();\n  var min = this.getMinutes() < 10 ? \"0\" + this.getMinutes() : this.getMinutes();\n  return \"\".concat(yyyymmdd).concat(hh).concat(min);\n};\n\nvar ts = \"B\"+(new Date().yyyymmddhhmm());\nflow.set(\"tbid\", ts);\nmsg.topic = \"INSERT INTO batteries.battery \";  \n// msg.topic += \"( `timestamp`, `description`, `capacity`, `force`, `r_intern`, `i_charge`)\";\nmsg.topic += \"VALUES ( '\"+ts+\"','\"+flow.get(\"btype\")+\"','\"+flow.get(\"bcap\");\nmsg.topic += \"','\"+flow.get(\"icap\")+\"','\"+flow.get(\"ri\")+\"','\"+flow.get(\"iset\")/1000+\"','\"+flow.get(\"vset\")/100+\"', null, null );\";\nreturn msg;",
         "outputs": 1,
@@ -1444,31 +1276,31 @@
         "y": 1400,
         "wires": [
             [
-                "ae50f76d.348b88"
+                "26e3e830.76d998"
             ]
         ]
     },
     {
-        "id": "e8545db4.8b44",
+        "id": "283f093b.9b2b06",
         "type": "modbus-flex-write",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "showStatusActivities": false,
         "showErrors": false,
-        "server": "761c9f09.692fa",
+        "server": "2b92a888.1890a8",
         "x": 930,
         "y": 1600,
         "wires": [
             [],
             [
-                "ba56229f.1c78e"
+                "84071f13.827bd"
             ]
         ]
     },
     {
-        "id": "a8cda3b9.a0aa5",
+        "id": "4b16ac64.b58414",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "query: new table",
         "func": "msg.topic = \"CREATE TABLE `batteries`.`\"+flow.get(\"tbid\")+\"` (\";\nmsg.topic += \"`time` INT NOT NULL ,\";\nmsg.topic += \"`v` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"`i` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"`t` INT NOT NULL ,\";\nmsg.topic += \"`ah` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"PRIMARY KEY ( `time` )\";\nmsg.topic += \") ENGINE = INNODB;\";\nreturn msg;",
         "outputs": 1,
@@ -1477,15 +1309,15 @@
         "y": 1400,
         "wires": [
             [
-                "d752c72f.bedfb8"
+                "44068d38.a0ab34"
             ]
         ]
     },
     {
-        "id": "d752c72f.bedfb8",
+        "id": "44068d38.a0ab34",
         "type": "mysql",
-        "z": "37c99bfe.954034",
-        "mydb": "746dcf19.ccb99",
+        "z": "a6941e78.e5a6b",
+        "mydb": "87c6018f.346ab",
         "name": "",
         "x": 1440,
         "y": 1500,
@@ -1494,9 +1326,9 @@
         ]
     },
     {
-        "id": "73277a19.fd1b64",
+        "id": "7700ceb5.551eb",
         "type": "switch",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "",
         "property": "payload",
         "propertyType": "msg",
@@ -1519,17 +1351,17 @@
         "y": 100,
         "wires": [
             [
-                "4ecbf380.5aea1c"
+                "eb00b8be.a10588"
             ],
             [
-                "8e597c54.cacd"
+                "b8d674c6.b95a38"
             ]
         ]
     },
     {
-        "id": "8e597c54.cacd",
+        "id": "b8d674c6.b95a38",
         "type": "config",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "FAST config",
         "properties": [
             {
@@ -1563,9 +1395,9 @@
         "wires": []
     },
     {
-        "id": "783b910b.13982",
+        "id": "1ded90ea.f1238f",
         "type": "inject",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "time update",
         "topic": "",
         "payload": "",
@@ -1578,14 +1410,14 @@
         "y": 160,
         "wires": [
             [
-                "425f1365.bd442c"
+                "fd8856da.567148"
             ]
         ]
     },
     {
-        "id": "a32042aa.e2897",
+        "id": "1ffca897.575d37",
         "type": "comment",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Mysql commands",
         "info": "loop to store a record every 5 sec.",
         "x": 100,
@@ -1593,10 +1425,10 @@
         "wires": []
     },
     {
-        "id": "d01f4a16.39c8d8",
+        "id": "c04b9c0c.bb2d4",
         "type": "mysql",
-        "z": "37c99bfe.954034",
-        "mydb": "746dcf19.ccb99",
+        "z": "a6941e78.e5a6b",
+        "mydb": "87c6018f.346ab",
         "name": "update record",
         "x": 1360,
         "y": 1600,
@@ -1605,9 +1437,9 @@
         ]
     },
     {
-        "id": "ba56229f.1c78e",
+        "id": "84071f13.827bd",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "query:  close",
         "func": "var rid = flow.get(\"tbid\");\nvar etime = flow.get(\"cmin\") + \":\"+ flow.get(\"csec\");\n\nmsg.topic = \"UPDATE `batteries`.`battery` SET\";\nmsg.topic +=\" `e_time` = '\"+etime+\"',\";\nmsg.topic +=\" `ah` = '\"+flow.get(\"ahbatt\")+\"' \";\nmsg.topic +=\" WHERE `battery`.`file` = '\"+ rid+\"' \";\nmsg.topic +=\" LIMIT 1\" ;\nreturn msg;",
         "outputs": 1,
@@ -1616,14 +1448,14 @@
         "y": 1600,
         "wires": [
             [
-                "d01f4a16.39c8d8"
+                "c04b9c0c.bb2d4"
             ]
         ]
     },
     {
-        "id": "cab41a6.e2022e8",
+        "id": "9b5f7a44.4e0f48",
         "type": "inject",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "Mysql data loop",
         "topic": "",
         "payload": "",
@@ -1636,14 +1468,14 @@
         "y": 1500,
         "wires": [
             [
-                "c2d870e8.87b8e"
+                "ee912cff.e1cc3"
             ]
         ]
     },
     {
-        "id": "c2d870e8.87b8e",
+        "id": "ee912cff.e1cc3",
         "type": "function",
-        "z": "37c99bfe.954034",
+        "z": "a6941e78.e5a6b",
         "name": "query: new record",
         "func": "if (flow.get(\"run\")==1) {\nvar rid = flow.get(\"tbid\");\nmsg.topic = \"INSERT INTO `batteries`.`\"+rid+\"`  \";  \nmsg.topic += \"VALUES ( '\"+flow.get(\"esect\").toFixed(0)+\"','\"+flow.get(\"vbatt\").toFixed(3)+\"','\"+flow.get(\"abatt\").toFixed(3);\nmsg.topic += \"','\"+flow.get(\"tbatt\").toFixed(0)+\"','\"+flow.get(\"ahbatt\").toFixed(3)+\"');\";\nreturn msg;\n}",
         "outputs": 1,
@@ -1652,8 +1484,80 @@
         "y": 1500,
         "wires": [
             [
-                "d752c72f.bedfb8"
+                "44068d38.a0ab34"
             ]
         ]
+    },
+    {
+        "id": "2b92a888.1890a8",
+        "type": "modbus-client",
+        "z": "",
+        "name": "RD6006",
+        "clienttype": "simpleser",
+        "bufferCommands": false,
+        "stateLogEnabled": false,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": "14502",
+        "tcpType": "DEFAULT",
+        "serialPort": "COM10",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "115200",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1500",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "3000",
+        "parallelUnitIdsAllowed": false
+    },
+    {
+        "id": "3b92f60b.0be03a",
+        "type": "ui_group",
+        "z": "",
+        "name": "rtdata",
+        "tab": "57266144.dd882",
+        "order": 1,
+        "disp": false,
+        "width": "8"
+    },
+    {
+        "id": "ae99da26.9b2e78",
+        "type": "ui_group",
+        "z": "",
+        "name": "main",
+        "tab": "57266144.dd882",
+        "order": 3,
+        "disp": false,
+        "width": "8"
+    },
+    {
+        "id": "89f6f9eb.df45b8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Group 2",
+        "tab": "57266144.dd882",
+        "order": 2,
+        "disp": false,
+        "width": "8"
+    },
+    {
+        "id": "87c6018f.346ab",
+        "type": "MySQLdatabase",
+        "z": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "batteries",
+        "tz": "+1"
+    },
+    {
+        "id": "57266144.dd882",
+        "type": "ui_tab",
+        "z": "",
+        "name": "NiMH charger",
+        "icon": "dashboard",
+        "order": 3
     }
 ]
