@@ -33,5 +33,5 @@ Every charge cicle generates a new mySQL table, with records stored every 5 sec,
 - A ***WAMP*** (or LAMP...) is required to have *mySQL* and *phpMyAdmin*.
 - Add to the ***node-red** palette* the package *node-red-node-mysql*
   (see [https://flows.nodered.org/node/node-red-node-mysql](https://flows.nodered.org/node/node-red-node-mysql "node-red-node-mysql"))
-- Copy the contents of the file [NiMH_charger_RD6006.json](NiMH_charger_RD6006.json "NiMH_charger_RD6006") to the clipboard and import it into a new flow in ***node-red***.
+- Copy the contents of the file [charger.json](charger.json "NiMH_charger_RD6006") to the clipboard and import it into a new flow in ***node-red***.
 - The values in *'SLOW config'* and *'FAST config'* nodes can be modified to suit your needs.
