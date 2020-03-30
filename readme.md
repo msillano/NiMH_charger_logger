@@ -1,12 +1,12 @@
 # NiMH battery charger logger 2.0 #
 This is an experimental charger and data logger for NiMH batteries and packs, to get data and graphics about the charging process.
 
-![](images\2020-03-28.190610.shot.png)
+![](images/2020-03-28.190610.shot.png)
 
 It uses the RD6006 power supply and the UD18 Digital tester (optional). It is implemented as **node-red** flow.
 
 Data can be exported as CSV file or as mySQL tables.
-![](images\2020-03-24.164721.shot.png)
+![](images/2020-03-24.164721.shot.png)
 
 The full project documentation is in file [NiMH battery charger logger2.pdf](NiMH_battery_charger_logger2.pdf).
 
