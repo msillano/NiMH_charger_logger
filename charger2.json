@@ -1,0 +1,2415 @@
+[
+    {
+        "id": "e4b5f6.297b9a08",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "19fd9486.38d54b",
+        "type": "csv",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "sep": ";",
+        "hdrin": "",
+        "hdrout": false,
+        "multi": "one",
+        "ret": "\\r\\n",
+        "temp": "nsec, ahbatt, ic, vrd, vb, deltav, ri, tbatt, deltat",
+        "skip": "0",
+        "strings": false,
+        "x": 1530,
+        "y": 1420,
+        "wires": [
+            [
+                "f22eae6f.41a27"
+            ]
+        ],
+        "info": "note:\nColumns must be compatibe with first row, values are topic."
+    },
+    {
+        "id": "dc4ab095.0486b",
+        "type": "file",
+        "z": "e4b5f6.297b9a08",
+        "name": "to CSV file",
+        "filename": "",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 1770,
+        "y": 1300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f22eae6f.41a27",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "logging format",
+        "func": "\nif (flow.get(\"LOGGING\") === \"CSV\") {\n    msg.filename = flow.get(\"filename\");\n// dots to commas\n    msg.payload = msg.payload.replace(/\\./g, ',');\n    return [msg, []];\n}\nif (flow.get(\"LOGGING\") === \"MYSQL\") {\n    var rid = flow.get(\"tbid\");\n    msg.topic = \"INSERT IGNORE INTO `batteries`.`\"+rid+\"`  \";  \n    msg.topic += \"VALUES ( \"+ msg.payload.replace(/\\;/g, ',') +\");\";\n    return [[], msg];\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 1560,
+        "y": 1340,
+        "wires": [
+            [
+                "dc4ab095.0486b"
+            ],
+            [
+                "27f670c6.df078"
+            ]
+        ],
+        "info": "Standard timestamps can't be used to build filenames, but sometimes it is useful to have a time indication in a unique file name (logs, data, etc.)\nThis node creates timestamps to be used in filenames.\n### How it works\nThis node adds 3 new functions to Date()\n * pad2(n) returns like \"03\"\n * yyyymmdd() returns like \"20200310\"\n * yyyymmddThhmmss() returns like \"D20200310T104655\"\n\n### How use it\n**input:** a trigger msg (any)\n\n**output:** msg.payload = timestamp by yyyymmddThhmmss()\n"
+    },
+    {
+        "id": "2b54a48d.dec83c",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "scheduler: Store esect, cmin, csec Put clock1, clock2",
+        "func": "\nvar esec = Math.round((Date.now() - flow.get(\"starttime\"))/1000);\nvar n = 10;\nif (isNaN(esec)){\n    esec = 1;\n    flow.set(\"starttime\", Date.now());\n}\nvar tmin = (esec/60).toFixed(0);\nvar tsec = (esec % 60).toFixed(0);\nflow.set(\"esect\", esec);\nflow.set(\"cmin\", tmin);\nflow.set(\"csec\", tsec);\nif (((esec % n) === 0) && (flow.get(\"run\") === 1)){\n   var msg2 = { payload: esec, topic: 'nsec'};\n   return[[], msg2];\n} \nif ((esec % n) === 5){\n   var msg1 = { payload: esec, topic: 'nsec'};\n   return[msg1, []];\n} \n",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 560,
+        "y": 160,
+        "wires": [
+            [
+                "8737239d.b28fc"
+            ],
+            [
+                "1d6df75c.90cd79"
+            ]
+        ]
+    },
+    {
+        "id": "fad89d90.94f5d",
+        "type": "inject",
+        "z": "e4b5f6.297b9a08",
+        "name": "base clock 1 sec",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "x": 230,
+        "y": 160,
+        "wires": [
+            [
+                "2b54a48d.dec83c"
+            ]
+        ]
+    },
+    {
+        "id": "bd4bfc34.293d8",
+        "type": "config",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "properties": [
+            {
+                "p": "UD18DROP",
+                "pt": "flow",
+                "to": "0.910",
+                "tot": "num"
+            },
+            {
+                "p": "MODE",
+                "pt": "flow",
+                "to": "CV",
+                "tot": "str"
+            },
+            {
+                "p": "LOGGING",
+                "pt": "flow",
+                "to": "CSV",
+                "tot": "str"
+            },
+            {
+                "p": "ITICKLE",
+                "pt": "flow",
+                "to": "80",
+                "tot": "num"
+            },
+            {
+                "p": "VSET1",
+                "pt": "flow",
+                "to": "500",
+                "tot": "num"
+            },
+            {
+                "p": "Tlimit",
+                "pt": "flow",
+                "to": "45",
+                "tot": "num"
+            },
+            {
+                "p": "dTlimit",
+                "pt": "flow",
+                "to": "1,5",
+                "tot": "num"
+            },
+            {
+                "p": "dVlimit",
+                "pt": "flow",
+                "to": "-2",
+                "tot": "num"
+            },
+            {
+                "p": "CFG_VBMAX",
+                "pt": "flow",
+                "to": "5.0",
+                "tot": "num"
+            }
+        ],
+        "active": true,
+        "x": 190,
+        "y": 100,
+        "wires": [],
+        "info": "Stores some configuration values.\n \n* **User options**\n -  MODE one of: STEST (static test), TRICKLE, SLOW, FAST, AUTO (FAST+SLOW), CV (constant tension).\n -  LOGGING one of CSV, MYSQL, NONE\n \n* **Setup values**\n -  UD18DROP (default 0.31).[V] Tuning: measure it on UD18 @Iset = 0, Vset=5. Set 0 if UD18 not used\n -  ITRICKLE value 0.03C... 0.05C, default 80 mA\n -  VSET1 RD6006 V_SET (default  5 V),. error condition\n -  Tlimit (default 45) Max temperatore [°C], error condition\n -  dTlimit (default 1.5) Max deltaT/min [*C/min] to detect end charge\n -  dVlimit (default -0.02) Max -deltaV/min [V/min] to detect end charge\n -  CFG_VBMAX (default 1.70) Max battery tension [V] end charge condition (for 3 pack: 1.60 x 3 = 4.8)\n* **RT variables intialization**"
+    },
+    {
+        "id": "1d6df75c.90cd79",
+        "type": "link out",
+        "z": "e4b5f6.297b9a08",
+        "name": "data_clk",
+        "links": [
+            "baf2d535.bbb398"
+        ],
+        "x": 855,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "8737239d.b28fc",
+        "type": "link out",
+        "z": "e4b5f6.297b9a08",
+        "name": "gui_clk",
+        "links": [
+            "13313975.80e4d7",
+            "da802f39.f72c5"
+        ],
+        "x": 855,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "baf2d535.bbb398",
+        "type": "link in",
+        "z": "e4b5f6.297b9a08",
+        "name": "data polling",
+        "links": [
+            "1d6df75c.90cd79"
+        ],
+        "x": 115,
+        "y": 1440,
+        "wires": [
+            [
+                "a06f9cd3.12c19",
+                "fa99e8d7.99a3d8"
+            ]
+        ]
+    },
+    {
+        "id": "cdb464d0.f91508",
+        "type": "comment",
+        "z": "e4b5f6.297b9a08",
+        "name": "Data polling - logging",
+        "info": "",
+        "x": 140,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "1c17cf03.c3a521",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "reset start time, error",
+        "func": "var tmp = Date.now();\nflow.set(\"starttime\", tmp);\nmsg.payload = tmp;\nflow.set(\"csec\",0);\nflow.set(\"cmin\",0);\nflow.set(\"error\",0);\n",
+        "outputs": 0,
+        "noerr": 0,
+        "x": 580,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "98803d03.984e",
+        "type": "modbus-flex-write",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "server": "2b92a888.1890a8",
+        "x": 570,
+        "y": 340,
+        "wires": [
+            [],
+            [
+                "15ba506d.65f27"
+            ]
+        ]
+    },
+    {
+        "id": "4fce9597.627d5c",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC16: writes Vset Iset",
+        "func": "// startup\n\nflow.set(\"usemode\", flow.get(\"MODE\"));\nmsg.payload = { 'value' : [flow.get('VSET1'), flow.get('iset') ], 'fc': 16, 'unitid': 1, 'address': 8, 'quantity': 2 };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 340,
+        "wires": [
+            [
+                "98803d03.984e",
+                "1c17cf03.c3a521"
+            ]
+        ]
+    },
+    {
+        "id": "52cf9b0b.afe0b4",
+        "type": "modbus-flex-write",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "server": "2b92a888.1890a8",
+        "x": 570,
+        "y": 460,
+        "wires": [
+            [
+                "f38376cb.6eec18"
+            ],
+            [
+                "7fad3453.b216bc"
+            ]
+        ]
+    },
+    {
+        "id": "71480cd9.20d194",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC 6:  set OUT ON",
+        "func": "msg.payload = { 'value': 1, 'fc': 6, 'unitid': 1, 'address': 18 , 'quantity': 1 };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290,
+        "y": 460,
+        "wires": [
+            [
+                "52cf9b0b.afe0b4"
+            ]
+        ]
+    },
+    {
+        "id": "15ba506d.65f27",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC3: get ah ",
+        "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':38, 'quantity': 2 }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 270,
+        "y": 400,
+        "wires": [
+            [
+                "48d0cc58.fc7454"
+            ]
+        ]
+    },
+    {
+        "id": "48d0cc58.fc7454",
+        "type": "modbus-flex-getter",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "logIOActivities": false,
+        "server": "2b92a888.1890a8",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "x": 570,
+        "y": 400,
+        "wires": [
+            [
+                "c372fb3c.6d2058"
+            ],
+            [
+                "71480cd9.20d194"
+            ]
+        ]
+    },
+    {
+        "id": "c372fb3c.6d2058",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "set ah offset",
+        "func": "var tmp =(msg.payload[0]*65536 + msg.payload[1])/1000;\nflow.set(\"startah\", tmp);\nmsg.payload = tmp;\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 790,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "576727ba.334348",
+        "type": "comment",
+        "z": "e4b5f6.297b9a08",
+        "name": "START stuff",
+        "info": "",
+        "x": 110,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "be720855.10cb88",
+        "type": "mysql",
+        "z": "e4b5f6.297b9a08",
+        "mydb": "df1c70e1.a4ee",
+        "name": "send record",
+        "x": 990,
+        "y": 480,
+        "wires": [
+            [
+                "7b3e6ff5.938b4"
+            ]
+        ]
+    },
+    {
+        "id": "7b3e6ff5.938b4",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "query: new table",
+        "func": "msg.topic = \"CREATE TABLE IF NOT EXISTS `batteries`.`\"+flow.get(\"tbid\")+\"` (\";\nmsg.topic += \"`time` INT NOT NULL ,\";\nmsg.topic += \"`charge` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"`iout` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"`vout` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"`vbat` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"`deltav` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"`ri` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"`temp` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"`deltat` DECIMAL( 10, 3 ) NOT NULL ,\";\nmsg.topic += \"PRIMARY KEY ( `time` )\";\nmsg.topic += \") ENGINE = INNODB;\";\nreturn msg;\n// 200;0.000;0.001;0.03;-0.28;0.0;0.000;2.4;0.00\n// nsec, ahbatt, ic, vrd, vb, deltav, ri, tbatt, deltat",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1180,
+        "y": 480,
+        "wires": [
+            [
+                "a2e87e43.4ef27"
+            ]
+        ]
+    },
+    {
+        "id": "27f670c6.df078",
+        "type": "mysql",
+        "z": "e4b5f6.297b9a08",
+        "mydb": "df1c70e1.a4ee",
+        "name": "to DB",
+        "x": 1750,
+        "y": 1360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f38376cb.6eec18",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "start log msg",
+        "func": "Date.prototype.pad2 =      function(n) {  \n  return (n < 10 ? '0' : '') + n;\n}\nDate.prototype.yyyymmdd = function() {\n  return  this.getFullYear()+this.pad2(this.getMonth() + 1)+this.pad2(this.getDate());\n};\nDate.prototype.yyyymmddThhmmss = function() {\n  return \"D\"+this.yyyymmdd()+\"T\"+ this.pad2(this.getHours())+ this.pad2(this.getMinutes())+ this.pad2(this.getSeconds());\n};\n// startup \n    var tmp = new Date().yyyymmddThhmmss();\n    flow.set(\"filename\", \"D:/User/Documents/progetti2020/NiMh battery charger/work/R\"+tmp+\".csv\" );\n    flow.set(\"tbid\", tmp);\n    // only for test\n    //   flow.set(\"iset\", 0);\n    flow.set(\"starttime\", NaN);\n\nif (flow.get(\"LOGGING\") == \"CSV\") {\n    msg.payload = \"sec;Q[mAh];Ic[A];Vrd[V];Vb[V];deltaV[mV/min];Ri[Ω];Tbatt[°C];deltaT[°C/min] \\r\\n\";\n    msg.filename = flow.get(\"filename\");\n    return [msg, []];\n}\nif (flow.get(\"LOGGING\") == \"MYSQL\") {\n    msg.topic = \"INSERT IGNORE INTO batteries.battery \";  \n    // msg.topic += \"( `timestamp`, `description`, `capacity`, `force`, `r_intern`, `i_charge`)\";\n    msg.topic += \"VALUES ( '\"+flow.get(\"tbid\")+\"','\"+flow.get(\"btype\")+\"','\"+flow.get(\"bcap\");\n    msg.topic += \"','\"+flow.get(\"icap\")+\"','\"+flow.get(\"iset\")/1000+\"','\"+flow.get(\"CFG_VSET\")/100+\"', null, null );\";\n    return [[], msg];\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 790,
+        "y": 440,
+        "wires": [
+            [
+                "d8990d3e.88bc5"
+            ],
+            [
+                "be720855.10cb88"
+            ]
+        ],
+        "info": "Standard timestamps can't be used to build filenames, but sometimes it is useful to have a time indication in a unique file name (logs, data, etc.)\nThis node creates timestamps to be used in filenames.\n### How it works\nThis node adds 3 new functions to Date()\n * pad2(n) returns like \"03\"\n * yyyymmdd() returns like \"20200310\"\n * yyyymmddThhmmss() returns like \"D20200310T104655\"\n\n### How use it\n**input:** a trigger msg (any)\n\n**output:** msg.payload = timestamp by yyyymmddThhmmss()\n"
+    },
+    {
+        "id": "d8990d3e.88bc5",
+        "type": "file",
+        "z": "e4b5f6.297b9a08",
+        "name": "to CSV file",
+        "filename": "",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 990,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a2e87e43.4ef27",
+        "type": "mysql",
+        "z": "e4b5f6.297b9a08",
+        "mydb": "df1c70e1.a4ee",
+        "name": "to DB",
+        "x": 1350,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c5c33802.78cb58",
+        "type": "ui_button",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "group": "ffb283b5.7f0cf",
+        "order": 2,
+        "width": "3",
+        "height": "2",
+        "passthru": false,
+        "label": "{{msg.topic}}",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "{{msg.background}}",
+        "icon": "",
+        "payload": "click",
+        "payloadType": "str",
+        "topic": "",
+        "x": 430,
+        "y": 2280,
+        "wires": [
+            [
+                "9e8c5958.cf3728"
+            ]
+        ]
+    },
+    {
+        "id": "3a0d72e2.9bb53e",
+        "type": "ui_text_input",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "label": "Capacity mAh",
+        "tooltip": "",
+        "group": "ffb283b5.7f0cf",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "mode": "number",
+        "delay": "0",
+        "topic": "",
+        "x": 380,
+        "y": 2440,
+        "wires": [
+            [
+                "5c973569.72044c"
+            ]
+        ]
+    },
+    {
+        "id": "13eaffd9.35aaa",
+        "type": "ui_text_input",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "label": "Battery type",
+        "tooltip": "infos about the battery",
+        "group": "ffb283b5.7f0cf",
+        "order": 1,
+        "width": "5",
+        "height": "1",
+        "passthru": false,
+        "mode": "text",
+        "delay": "0",
+        "topic": "",
+        "x": 370,
+        "y": 2560,
+        "wires": [
+            [
+                "fd04fdf.24527"
+            ]
+        ]
+    },
+    {
+        "id": "21505e12.4e3f52",
+        "type": "ui_dropdown",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "label": "Iset",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "ffb283b5.7f0cf",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "options": [
+            {
+                "label": "C/40",
+                "value": 0.025,
+                "type": "num"
+            },
+            {
+                "label": "C/33",
+                "value": 0.0303,
+                "type": "num"
+            },
+            {
+                "label": "C/20",
+                "value": 0.05,
+                "type": "num"
+            },
+            {
+                "label": "C/10",
+                "value": 0.1,
+                "type": "num"
+            },
+            {
+                "label": "C/8",
+                "value": 0.125,
+                "type": "num"
+            },
+            {
+                "label": "C/5",
+                "value": 0.2,
+                "type": "num"
+            },
+            {
+                "label": "C/3",
+                "value": 0.333,
+                "type": "num"
+            },
+            {
+                "label": "C/2",
+                "value": 0.5,
+                "type": "num"
+            },
+            {
+                "label": "C/1.2",
+                "value": 0.8333,
+                "type": "num"
+            },
+            {
+                "label": "C",
+                "value": 1,
+                "type": "num"
+            },
+            {
+                "label": "1.2C",
+                "value": 1.2,
+                "type": "num"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 350,
+        "y": 2500,
+        "wires": [
+            [
+                "f819f5a5.ece678"
+            ]
+        ]
+    },
+    {
+        "id": "9e8c5958.cf3728",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "toggle",
+        "func": "\n\nif (( msg.payload == \"click\") && (flow.get(\"run\")) === 0){\n    flow.set(\"run\",1) ;\n    msg.payload = 1;\n} \nif ( msg.payload == \"on\"){\n    flow.set(\"run\",1) ;\n    msg.payload = 1;\n}\nif (( msg.payload == \"click\") && (flow.get(\"run\")) == 1){\n  flow.set(\"run\", 0) ;\n  msg.payload = 0;\n  if (flow.get(\"error\") === 0) {\n    flow.set(\"error\", 128) ;\n    }\n}\nif ( msg.payload == \"off\") {\n  flow.set(\"run\", 0) ;\n  msg.payload = 0;\n  if (flow.get(\"error\") === 0) {\n    flow.set(\"error\", 128) ;\n    }\n} \nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 210,
+        "y": 2360,
+        "wires": [
+            [
+                "767c5593.c99dcc",
+                "2d678ef.0ab9672"
+            ]
+        ]
+    },
+    {
+        "id": "767c5593.c99dcc",
+        "type": "switch",
+        "z": "e4b5f6.297b9a08",
+        "name": "start / stop msg",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 400,
+        "y": 2360,
+        "wires": [
+            [
+                "2d2a0523.c2bb3a"
+            ],
+            [
+                "1b39e463.e84abc"
+            ]
+        ]
+    },
+    {
+        "id": "5c973569.72044c",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "store",
+        "func": "flow.set(\"bcap\", msg.payload);\nvar tmp =(msg.payload * flow.get(\"icap\"));\nflow.set(\"CFG_MAXTIME\", Math.round(90/ flow.get(\"icap\")));\nflow.set(\"iset\", tmp);\nmsg.payload =  tmp ;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 570,
+        "y": 2440,
+        "wires": [
+            [
+                "a693e8f2.f617f8"
+            ]
+        ]
+    },
+    {
+        "id": "f819f5a5.ece678",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "store",
+        "func": "flow.set(\"icap\", msg.payload);\nflow.set(\"CFG_MAXTIME\", Math.round(90 / msg.payload));\nvar tmp =(msg.payload * flow.get(\"bcap\"));\nflow.set(\"iset\", tmp);\nmsg.payload =  tmp;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 570,
+        "y": 2500,
+        "wires": [
+            [
+                "a693e8f2.f617f8"
+            ]
+        ]
+    },
+    {
+        "id": "d52f4ce3.6e8d5",
+        "type": "comment",
+        "z": "e4b5f6.297b9a08",
+        "name": "GUI user commands",
+        "info": "1- executes START/STOP comands\n2- stores user values on flow variables",
+        "x": 130,
+        "y": 2220,
+        "wires": []
+    },
+    {
+        "id": "fd04fdf.24527",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "store",
+        "func": "flow.set(\"btype\", msg.payload);\n",
+        "outputs": 0,
+        "noerr": 0,
+        "x": 570,
+        "y": 2560,
+        "wires": []
+    },
+    {
+        "id": "2d678ef.0ab9672",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "button look",
+        "func": "if (flow.get(\"run\") ==1) {\n    msg.background =\"TURQUOISE\";\n    msg.topic = \"STOP\";\n} else {\n    msg.background =\"LIME\";\n    msg.topic = \"START\";\n}\n// msg.enabled = flow.get(\"bmode\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 230,
+        "y": 2280,
+        "wires": [
+            [
+                "c5c33802.78cb58"
+            ]
+        ]
+    },
+    {
+        "id": "2d2a0523.c2bb3a",
+        "type": "link out",
+        "z": "e4b5f6.297b9a08",
+        "name": "stop",
+        "links": [
+            "8e6a4d6f.38734",
+            "db7f7cf2.a98ec"
+        ],
+        "x": 535,
+        "y": 2340,
+        "wires": []
+    },
+    {
+        "id": "b5ce06b5.832fc8",
+        "type": "link in",
+        "z": "e4b5f6.297b9a08",
+        "name": "start stuff",
+        "links": [
+            "1b39e463.e84abc"
+        ],
+        "x": 135,
+        "y": 340,
+        "wires": [
+            [
+                "4fce9597.627d5c"
+            ]
+        ]
+    },
+    {
+        "id": "1b39e463.e84abc",
+        "type": "link out",
+        "z": "e4b5f6.297b9a08",
+        "name": "start",
+        "links": [
+            "b5ce06b5.832fc8"
+        ],
+        "x": 535,
+        "y": 2380,
+        "wires": []
+    },
+    {
+        "id": "344551f3.a27b4e",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "Format RT data",
+        "func": "// if (flow.get(\"vbatt\")){\nvar tmp =flow.get(\"vb\");\nif (tmp)\n   var msg1 = { payload: tmp.toFixed(2), topic: ' V'};\ntmp =flow.get(\"ic\");\nif(tmp)\n   var msg2 = { payload: tmp.toFixed(3), topic: ' A'};\ntmp =flow.get(\"ahbatt\");\nif (tmp)\n   var msg3 = { payload: tmp.toFixed(3), topic: ' Ah'};\nvar msg4 = { payload: flow.get(\"tbatt\"), topic: ' °C'};\nreturn ([msg1, msg2, msg3, msg4]);\n// }\n",
+        "outputs": 4,
+        "noerr": 0,
+        "x": 520,
+        "y": 1960,
+        "wires": [
+            [
+                "4c045299.1306dc"
+            ],
+            [
+                "f21eb790.6ed928"
+            ],
+            [
+                "a8f914dd.9c2a38"
+            ],
+            [
+                "a8d2c3e4.c1c92"
+            ]
+        ]
+    },
+    {
+        "id": "f21eb790.6ed928",
+        "type": "ui_text",
+        "z": "e4b5f6.297b9a08",
+        "group": "70ca806d.d7591",
+        "order": 3,
+        "width": "4",
+        "height": "1",
+        "name": "I",
+        "label": "",
+        "format": "<font color =PALETURQUOISE size=6>{{msg.payload}} {{msg.topic}}</font>",
+        "layout": "row-right",
+        "x": 870,
+        "y": 1980,
+        "wires": []
+    },
+    {
+        "id": "a8f914dd.9c2a38",
+        "type": "ui_text",
+        "z": "e4b5f6.297b9a08",
+        "group": "70ca806d.d7591",
+        "order": 2,
+        "width": "4",
+        "height": "1",
+        "name": "Ah",
+        "label": "",
+        "format": "<font color =KHAKI size=6>{{msg.payload}} {{msg.topic}}</font>",
+        "layout": "row-right",
+        "x": 870,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "a8d2c3e4.c1c92",
+        "type": "ui_text",
+        "z": "e4b5f6.297b9a08",
+        "group": "70ca806d.d7591",
+        "order": 4,
+        "width": "4",
+        "height": "1",
+        "name": "T",
+        "label": "",
+        "format": "<font color =PINK size=6>{{msg.payload}} {{msg.topic}}</font>",
+        "layout": "row-right",
+        "x": 870,
+        "y": 2060,
+        "wires": []
+    },
+    {
+        "id": "4c045299.1306dc",
+        "type": "ui_text",
+        "z": "e4b5f6.297b9a08",
+        "group": "70ca806d.d7591",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "name": "V",
+        "label": "",
+        "format": "<font color =LAWNGREEN size=6>{{msg.payload}} {{msg.topic}}</font>",
+        "layout": "row-right",
+        "x": 870,
+        "y": 1940,
+        "wires": []
+    },
+    {
+        "id": "3c7e789e.4b10e8",
+        "type": "inject",
+        "z": "e4b5f6.297b9a08",
+        "name": "manual reset chart",
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "0.2",
+        "x": 250,
+        "y": 2140,
+        "wires": [
+            [
+                "4f723be3.8901c4"
+            ]
+        ]
+    },
+    {
+        "id": "4f723be3.8901c4",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "reset chart msg",
+        "func": "msg.payload = [];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 520,
+        "y": 2100,
+        "wires": [
+            [
+                "b370b423.588528"
+            ]
+        ]
+    },
+    {
+        "id": "35f5fa8e.bd0ac6",
+        "type": "comment",
+        "z": "e4b5f6.297b9a08",
+        "name": "loop GUI refresh",
+        "info": "1- updates values on screen\n2- updates chart (only running)\n3- formats status line",
+        "x": 120,
+        "y": 1720,
+        "wires": []
+    },
+    {
+        "id": "865c88ed.ad9a08",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "status message",
+        "func": "var messg = flow.get(\"cmin\") + \":\"+ flow.get(\"csec\");\nmessg += ' / '+ Math.floor(flow.get(\"CFG_MAXTIME\")/60).toFixed(0) + ':' +(flow.get(\"CFG_MAXTIME\")%60).toFixed(0);\nmessg += ':0 ';\nif (flow.get(\"run\")===0)\n   messg += ' stopped';\nelse\n   messg += ' running';\nvar endC = flow.get(\"error\");\nif (( endC & 1) == 1)\n   messg += ' OVP';\nif (( endC & 2) == 2)\n   messg += ' OCP';\nif (( endC & 4) == 4)\n   messg += ' by RD6006';\nif (( endC & 8) == 8)\n   messg += ' max Charge';\nif (( endC & 16) == 16)\n   messg += ' max Time';\nif (( endC & 32) == 32)\n   messg += ' max Temperature';\nif (( endC & 64) == 64)\n   messg += ' max Vbatt';\nif ((endC &  128) == 128)\n   messg += ' by user';\nif ((endC &  256) == 256)\n   messg += ' max deltaT';\nif ((endC &  512) == 512)\n   messg += ' max deltaV';\n\nmsg.payload = messg;\nif (endC !== 0){\n  var msg2 = { payload: \"off\", error: endC };\n  return [msg, msg2];\n}\nelse\n  return [msg];\n",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 520,
+        "y": 1900,
+        "wires": [
+            [
+                "7adb3e73.f3f1a"
+            ],
+            [
+                "a073f459.24c9a8",
+                "9e8c5958.cf3728"
+            ]
+        ]
+    },
+    {
+        "id": "7adb3e73.f3f1a",
+        "type": "ui_template",
+        "z": "e4b5f6.297b9a08",
+        "group": "70ca806d.d7591",
+        "name": "status line",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "format": "<div style = \"border: medium solid #0eb8c0;\nborder-radius:10px; padding-left:8px; padding-bottom:4px\" ng-bind-html=\"msg.payload\"></div>\n",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "templateScope": "local",
+        "x": 860,
+        "y": 1820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "86adc2f4.cd66a",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "Format chart data",
+        "func": "if (flow.get(\"run\")== 1){\nvar tmp = flow.get(\"vb\");\nif (tmp)\nvar msg1 = { payload: tmp.toFixed(2), topic: ' V'};\nvar tmp = flow.get(\"ic\");\nif (tmp)\nvar msg2 = { payload: tmp.toFixed(3), topic: ' A'};\nvar tmp = flow.get(\"ahbatt\");\nif (tmp)\nvar msg3 = { payload: tmp.toFixed(3), topic: ' Ah'};\nvar tmp = flow.get(\"tbatt\")/10;\nif (tmp)\nvar msg4 = { payload: tmp, topic: ' °C'};\nreturn([msg1, msg2, msg3, msg4]);\n}\nelse {\n   return([]); \n}\n// return ([msg1, msg2, msg3, msg4]);",
+        "outputs": 4,
+        "noerr": 0,
+        "x": 530,
+        "y": 2040,
+        "wires": [
+            [
+                "b370b423.588528"
+            ],
+            [
+                "b370b423.588528"
+            ],
+            [
+                "b370b423.588528"
+            ],
+            [
+                "b370b423.588528"
+            ]
+        ]
+    },
+    {
+        "id": "72eb1f7.a9381e",
+        "type": "status",
+        "z": "e4b5f6.297b9a08",
+        "name": "ModBus status",
+        "scope": [],
+        "x": 240,
+        "y": 1840,
+        "wires": [
+            [
+                "87696c0e.4d562"
+            ]
+        ]
+    },
+    {
+        "id": "87696c0e.4d562",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "ModBus error filter-format",
+        "func": "var messg = flow.get(\"cmin\") + \":\"+ flow.get(\"csec\");\nmessg += ' / '+ flow.get(\"CFG_MAXTIME\").toFixed(0);\nmessg += ':0 ';\nmessg += \"<font color='red'>\";\nif (msg.status.text == 'failure'){\n   messg += \" MODBUS failure </font>\"; \n   msg.payload = messg; \n   return msg;\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 1840,
+        "wires": [
+            [
+                "7adb3e73.f3f1a"
+            ]
+        ]
+    },
+    {
+        "id": "c02c2281.1752d",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "mySQL error filter-format",
+        "func": "\nvar messg = flow.get(\"cmin\") + \":\"+ flow.get(\"csec\");\nmessg += ' / '+ flow.get(\"CFG_MAXTIME\").toFixed(0);\nmessg += ':0 ';\nmessg += \"<font color='red'>\";\nif (msg.status.text != \"OK\"){\n   messg += \" mySQL: \"+msg.status.text+\"</font>\"; \n   msg.payload = messg; \n   return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 1780,
+        "wires": [
+            [
+                "7adb3e73.f3f1a"
+            ]
+        ]
+    },
+    {
+        "id": "4c3d0e17.a489",
+        "type": "status",
+        "z": "e4b5f6.297b9a08",
+        "name": "mysql status",
+        "scope": [],
+        "x": 230,
+        "y": 1780,
+        "wires": [
+            [
+                "c02c2281.1752d"
+            ]
+        ]
+    },
+    {
+        "id": "a073f459.24c9a8",
+        "type": "debug",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1110,
+        "y": 1900,
+        "wires": []
+    },
+    {
+        "id": "b370b423.588528",
+        "type": "ui_chart",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "group": "1d9d1c49.f32414",
+        "order": 0,
+        "width": "8",
+        "height": "4",
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#80ff00",
+            "#aec7e8",
+            "#ffbc80",
+            "#f9b5b7",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 870,
+        "y": 2100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "13313975.80e4d7",
+        "type": "link in",
+        "z": "e4b5f6.297b9a08",
+        "name": "GUI refresh",
+        "links": [
+            "8737239d.b28fc",
+            "c4ba7586.367e08"
+        ],
+        "x": 115,
+        "y": 1900,
+        "wires": [
+            [
+                "865c88ed.ad9a08",
+                "344551f3.a27b4e",
+                "86adc2f4.cd66a"
+            ]
+        ]
+    },
+    {
+        "id": "db7f7cf2.a98ec",
+        "type": "link in",
+        "z": "e4b5f6.297b9a08",
+        "name": "chart stop",
+        "links": [
+            "2d2a0523.c2bb3a"
+        ],
+        "x": 115,
+        "y": 2100,
+        "wires": [
+            [
+                "4f723be3.8901c4"
+            ]
+        ]
+    },
+    {
+        "id": "c3336505.b9eb78",
+        "type": "ui_button",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "group": "7bba9908.2652d8",
+        "order": 3,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "-",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 810,
+        "y": 2280,
+        "wires": [
+            [
+                "e56bfbcb.1723f8"
+            ]
+        ]
+    },
+    {
+        "id": "98f20580.086b68",
+        "type": "ui_button",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "group": "7bba9908.2652d8",
+        "order": 4,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "+",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 810,
+        "y": 2320,
+        "wires": [
+            [
+                "bb381beb.c8a068"
+            ]
+        ]
+    },
+    {
+        "id": "be8943ca.d193a",
+        "type": "ui_button",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "group": "7bba9908.2652d8",
+        "order": 5,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "field",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 810,
+        "y": 2360,
+        "wires": [
+            [
+                "620179ff.da2a28"
+            ]
+        ]
+    },
+    {
+        "id": "489fb4de.81233c",
+        "type": "ui_button",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "group": "7bba9908.2652d8",
+        "order": 6,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "done",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 810,
+        "y": 2400,
+        "wires": [
+            [
+                "28e8b574.c71c6a"
+            ]
+        ]
+    },
+    {
+        "id": "10276a3d.36e466",
+        "type": "comment",
+        "z": "e4b5f6.297b9a08",
+        "name": "STOP stuff",
+        "info": "",
+        "x": 100,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "51b3c42c.329d6c",
+        "type": "modbus-flex-write",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "server": "2b92a888.1890a8",
+        "x": 570,
+        "y": 920,
+        "wires": [
+            [],
+            [
+                "5ff3b75f.fa2648"
+            ]
+        ]
+    },
+    {
+        "id": "e0a5633f.d45cd",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC 6:  set OUT OFF",
+        "func": "msg.payload = { 'value': 0, 'fc': 6, 'unitid': 1, 'address': 18 , 'quantity': 1 };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 920,
+        "wires": [
+            [
+                "51b3c42c.329d6c"
+            ]
+        ]
+    },
+    {
+        "id": "8e6a4d6f.38734",
+        "type": "link in",
+        "z": "e4b5f6.297b9a08",
+        "name": "stop stuff",
+        "links": [
+            "2d2a0523.c2bb3a",
+            "48d51327.a8869c"
+        ],
+        "x": 135,
+        "y": 920,
+        "wires": [
+            [
+                "e0a5633f.d45cd",
+                "8172710e.83a02"
+            ]
+        ]
+    },
+    {
+        "id": "39b5d841.991bb8",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "Rule#1",
+        "func": "flow.set(\"usemode\", flow.get(\"MODE\"));\nif (flow.get(\"MODE\") == \"FAST\") {\n    var tx = flow.get(\"tbatt\");\n    if ((tx > 40) || (tx < 0))\n        flow.set(\"usemode\", \"SLOW\");\n    var vx = flow.get(\"vb\");\n    if ((vx > 1.29) || (vx < 1.0))\n        flow.set(\"usemode\", \"SLOW\");\n }\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1200,
+        "y": 760,
+        "wires": [
+            [
+                "f64f1b17.6a5f98"
+            ]
+        ]
+    },
+    {
+        "id": "32b25e9f.ced142",
+        "type": "modbus-flex-write",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "server": "2b92a888.1890a8",
+        "x": 570,
+        "y": 680,
+        "wires": [
+            [],
+            [
+                "8304d277.a8551"
+            ]
+        ]
+    },
+    {
+        "id": "8a237c72.50a3a",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC 6:  set  Iout to zero",
+        "func": "msg.payload = { 'value': 0, 'fc': 6, 'unitid': 1, 'address': 9 , 'quantity': 1 };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 680,
+        "wires": [
+            [
+                "32b25e9f.ced142"
+            ]
+        ]
+    },
+    {
+        "id": "8304d277.a8551",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC3: get Vout, Iout",
+        "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':10, 'quantity': 2 }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290,
+        "y": 740,
+        "wires": [
+            [
+                "799952e2.04574c"
+            ]
+        ]
+    },
+    {
+        "id": "799952e2.04574c",
+        "type": "modbus-flex-getter",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "logIOActivities": false,
+        "server": "2b92a888.1890a8",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "x": 570,
+        "y": 740,
+        "wires": [
+            [
+                "bd81328e.7c1d6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "bd81328e.7c1d6",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "is Iout = 0 ? if YES put vi, vb, ri ELSE loop",
+        "func": "var vi0 =  msg.payload[0]/100;\nif (msg.payload[1] <= 7){\n   flow.set(\"vi0\", vi0);\n   var vb = vi0 - flow.get(\"UD18DROP\");\n   flow.set(\"vb\", vb);\n   var vrd = flow.get(\"vrd\");\n   var ri = ((vrd - vi0)*1000)/flow.get(\"ic\");  \n   flow.set(\"ri\", ri);\n   var msg1 = { payload: vb, topic: 'vi'};\n   var msg2 = { payload: vb.toFixed(2), topic: 'vb'};\n   var msg3 = { payload: (ri/1000).toFixed(3), topic: 'ri'};\n   return ([msg1, msg2, msg3, []]); \n } else {\n  return [[], [], [], msg];    \n}",
+        "outputs": 4,
+        "noerr": 0,
+        "x": 880,
+        "y": 720,
+        "wires": [
+            [],
+            [],
+            [
+                "39b5d841.991bb8"
+            ],
+            [
+                "449478e6.05dd38"
+            ]
+        ]
+    },
+    {
+        "id": "c07e4009.0c064",
+        "type": "modbus-flex-write",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "server": "2b92a888.1890a8",
+        "x": 830,
+        "y": 820,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "f64f1b17.6a5f98",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC 6: re-set required Iout",
+        "func": "var iset = flow.get(\"iset\");\nvar mode = flow.get(\"usemode\");\nvar tmp =(0.1 * flow.get(\"bcap\"));  // C/10, slow limit\nswitch (mode) {\n  case \"STEST\":\n     flow.set(\"iset\", iset+50);\n     break;\n  case \"TRICKLE\":\n     flow.set(\"iset\", flow.get(\"ITRICKLE\"));\n     break;\n  case \"SLOW\":\n     if (iset > tmp) \n         flow.set(\"iset\", tmp); \n     break;\n  case \"FAST\":\n     if (iset <= tmp)\n         flow.set(\"usemode\", \"SLOW\");\n     break;\n  case \"CV\":\n  }\nmsg.payload = { 'value': flow.get(\"iset\"), 'fc': 6, 'unitid': 1, 'address': 9 , 'quantity': 1 };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 590,
+        "y": 820,
+        "wires": [
+            [
+                "c07e4009.0c064"
+            ]
+        ]
+    },
+    {
+        "id": "449478e6.05dd38",
+        "type": "delay",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 270,
+        "y": 800,
+        "wires": [
+            [
+                "8304d277.a8551"
+            ]
+        ]
+    },
+    {
+        "id": "696af9b7.fa1b78",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC3: get RT registers A",
+        "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':8, 'quantity': 11 }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 310,
+        "y": 560,
+        "wires": [
+            [
+                "7914deaa.5b7d5"
+            ]
+        ]
+    },
+    {
+        "id": "7914deaa.5b7d5",
+        "type": "modbus-flex-getter",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "logIOActivities": false,
+        "server": "2b92a888.1890a8",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "x": 570,
+        "y": 560,
+        "wires": [
+            [
+                "8a28b135.23136"
+            ],
+            [
+                "454a9f6d.a7c7f"
+            ]
+        ]
+    },
+    {
+        "id": "8a28b135.23136",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "Save error, onoff. Put: vrd, ic",
+        "func": "var e = flow.get(\"error\");\nflow.set(\"error\", (e | msg.payload[8]));\n//\nflow.set(\"vrd\", msg.payload[2]/100);\nflow.set(\"ic\", msg.payload[3]/1000);\nflow.set(\"onoff\", msg.payload[10]);\n",
+        "outputs": 0,
+        "noerr": 0,
+        "x": 840,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "454a9f6d.a7c7f",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC3: get RT registers B",
+        "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':32, 'quantity': 8 }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 310,
+        "y": 620,
+        "wires": [
+            [
+                "6057b35f.0b9d8c"
+            ]
+        ]
+    },
+    {
+        "id": "6057b35f.0b9d8c",
+        "type": "modbus-flex-getter",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "logIOActivities": false,
+        "server": "2b92a888.1890a8",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "x": 570,
+        "y": 620,
+        "wires": [
+            [
+                "36d29228.68866e"
+            ],
+            [
+                "8a237c72.50a3a"
+            ]
+        ]
+    },
+    {
+        "id": "36d29228.68866e",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "Save and put tbatt, ahbatt",
+        "func": "\nvar tmp =((msg.payload[6]*65536 + msg.payload[7])/1000) - flow.get(\"startah\");\nflow.set(\"ahbatt\", tmp);\nflow.set(\"tbatt\", msg.payload[3]);\n",
+        "outputs": 0,
+        "noerr": 0,
+        "x": 830,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "fa99e8d7.99a3d8",
+        "type": "join",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "9",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1390,
+        "y": 1420,
+        "wires": [
+            [
+                "19fd9486.38d54b"
+            ]
+        ]
+    },
+    {
+        "id": "5b1406dd.427208",
+        "type": "modbus-flex-write",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "server": "2b92a888.1890a8",
+        "x": 610,
+        "y": 1480,
+        "wires": [
+            [],
+            [
+                "dffe9966.01f998"
+            ]
+        ]
+    },
+    {
+        "id": "361a552f.f9bd8a",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC 6:  set  Iout to zero",
+        "func": "msg.payload = { 'value': 0, 'fc': 6, 'unitid': 1, 'address': 9 , 'quantity': 1 };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 340,
+        "y": 1480,
+        "wires": [
+            [
+                "5b1406dd.427208"
+            ]
+        ]
+    },
+    {
+        "id": "dffe9966.01f998",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC3: get Vout, Iout",
+        "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':10, 'quantity': 2 }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 1540,
+        "wires": [
+            [
+                "21d85f91.57f5d"
+            ]
+        ]
+    },
+    {
+        "id": "21d85f91.57f5d",
+        "type": "modbus-flex-getter",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "logIOActivities": false,
+        "server": "2b92a888.1890a8",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "x": 610,
+        "y": 1540,
+        "wires": [
+            [
+                "a7db52b4.53fb6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a7db52b4.53fb6",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "is Iout = 0 ? if YES put vi, vb, ri ELSE loop",
+        "func": "var vi0 =  msg.payload[0]/100;\nif (msg.payload[1] <= 7){\n   flow.set(\"vi0\", vi0);\n   var vb = vi0 - flow.get(\"UD18DROP\");\n   flow.set(\"vb\", vb);\n   var vrd = flow.get(\"vrd\");\n   var ri = ((vrd - vi0)*1000)/flow.get(\"ic\");  \n   flow.set(\"ri\", ri);\n   var msg1 = { payload: vb, topic: 'vi'};\n   var msg2 = { payload: vb.toFixed(2), topic: 'vb'};\n   var msg3 = { payload: (ri/1000).toFixed(3), topic: 'ri'};\n   return ([msg1, msg2, msg3, []]); \n } else {\n  return [[], [], [], msg];    \n}",
+        "outputs": 4,
+        "noerr": 0,
+        "x": 920,
+        "y": 1520,
+        "wires": [
+            [
+                "2e2f3edb.7e51a2"
+            ],
+            [
+                "fa99e8d7.99a3d8",
+                "1e6f9a95.4e2215"
+            ],
+            [
+                "fa99e8d7.99a3d8"
+            ],
+            [
+                "d759fa75.921ff8"
+            ]
+        ]
+    },
+    {
+        "id": "f382aaeb.104718",
+        "type": "modbus-flex-write",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "server": "2b92a888.1890a8",
+        "x": 1590,
+        "y": 1520,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "1e6f9a95.4e2215",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC 6: re-set required Iout",
+        "func": "var iset = flow.get(\"iset\");\nvar mode = flow.get(\"usemode\");\nswitch (mode) {\n  case \"STEST\":\n      flow.set(\"iset\", iset+50);\n      break;\n  case \"TRICKLE\":\n      break;\n  case \"SLOW\":\n      break;\n  case \"FAST\":\n      break;\n  case \"CV\":\n  }\nmsg.payload = { 'value': flow.get(\"iset\"), 'fc': 6, 'unitid': 1, 'address': 9 , 'quantity': 1 };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1330,
+        "y": 1520,
+        "wires": [
+            [
+                "f382aaeb.104718"
+            ]
+        ]
+    },
+    {
+        "id": "d759fa75.921ff8",
+        "type": "delay",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 310,
+        "y": 1600,
+        "wires": [
+            [
+                "dffe9966.01f998"
+            ]
+        ]
+    },
+    {
+        "id": "a06f9cd3.12c19",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC3: get RT registers A",
+        "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':8, 'quantity': 11 }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 1340,
+        "wires": [
+            [
+                "9ea04fd3.8d853"
+            ]
+        ]
+    },
+    {
+        "id": "9ea04fd3.8d853",
+        "type": "modbus-flex-getter",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "logIOActivities": false,
+        "server": "2b92a888.1890a8",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "x": 610,
+        "y": 1340,
+        "wires": [
+            [
+                "f4619f95.6846"
+            ],
+            [
+                "e4b3511d.00b4b"
+            ]
+        ]
+    },
+    {
+        "id": "f4619f95.6846",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "Save error, onoff. Put: vrd, ic",
+        "func": "var e = flow.get(\"error\");\nflow.set(\"vrd\", msg.payload[2]/100);\nflow.set(\"ic\", msg.payload[3]/1000);\nflow.set(\"error\", (e | msg.payload[8]));\nflow.set(\"onoff\", msg.payload[10]);\n// test only\nvar msg1 = { payload: (msg.payload[2]/100).toFixed(2), topic: 'vrd'};\nvar msg2 = { payload: (msg.payload[3]/1000).toFixed(3), topic: 'ic'};\nreturn[msg1, msg2];",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 1140,
+        "y": 1320,
+        "wires": [
+            [
+                "fa99e8d7.99a3d8"
+            ],
+            [
+                "fa99e8d7.99a3d8"
+            ]
+        ]
+    },
+    {
+        "id": "e4b3511d.00b4b",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "FC3: get RT registers B",
+        "func": "msg.payload = { 'fc': 3, 'unitid': 1, 'address':32, 'quantity': 8 }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 1400,
+        "wires": [
+            [
+                "bad03d54.4b26d"
+            ]
+        ]
+    },
+    {
+        "id": "bad03d54.4b26d",
+        "type": "modbus-flex-getter",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "logIOActivities": false,
+        "server": "2b92a888.1890a8",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "x": 610,
+        "y": 1400,
+        "wires": [
+            [
+                "1b389e8b.9c8311"
+            ],
+            [
+                "361a552f.f9bd8a"
+            ]
+        ]
+    },
+    {
+        "id": "1b389e8b.9c8311",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "Save and put tbatt, ahbatt",
+        "func": "\nflow.set(\"tbatt\", msg.payload[3]);\nvar tmp =((msg.payload[6]*65536 + msg.payload[7])/1000)- flow.get(\"startah\");\n// var tmp = flow.get(\"startah\");\n// tmp += ((msg.payload[6]*65536 + msg.payload[7])/1000);\nflow.set(\"ahbatt\", tmp);\n// test only\nvar msg1= {payload : msg.payload[3], topic : \"tb\"};  // as number\nvar msg2= {payload : msg.payload[3], topic : \"tbatt\" }; // full\nvar msg3= {payload : tmp.toFixed(3), topic : \"ahbatt\"};\nreturn [msg1, msg2, msg3]; ",
+        "outputs": 3,
+        "noerr": 0,
+        "x": 870,
+        "y": 1380,
+        "wires": [
+            [
+                "77a64dad.25d6b4"
+            ],
+            [
+                "fa99e8d7.99a3d8"
+            ],
+            [
+                "fa99e8d7.99a3d8"
+            ]
+        ]
+    },
+    {
+        "id": "77a64dad.25d6b4",
+        "type": "ring-buffer",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "capacity": "14",
+        "order": "old-to-new",
+        "sendOnlyIfFull": false,
+        "pushAfterClear": false,
+        "extra": false,
+        "perTopic": false,
+        "x": 1080,
+        "y": 1360,
+        "wires": [
+            [
+                "34df12b1.4f106e"
+            ]
+        ]
+    },
+    {
+        "id": "34df12b1.4f106e",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "deltaT",
+        "func": "var  deltat = 0;\nif (msg.payload[13]){\n    deltat = ((msg.payload[13]+ msg.payload[12]- msg.payload[0]- msg.payload[1])/4);\n}\nflow.set(\"deltat\", deltat);\nmsg.payload = deltat.toFixed(2);\nmsg.topic =   \"deltat\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1210,
+        "y": 1360,
+        "wires": [
+            [
+                "fa99e8d7.99a3d8"
+            ]
+        ]
+    },
+    {
+        "id": "2e2f3edb.7e51a2",
+        "type": "ring-buffer",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "capacity": "14",
+        "order": "old-to-new",
+        "sendOnlyIfFull": false,
+        "pushAfterClear": false,
+        "extra": false,
+        "perTopic": false,
+        "x": 1000,
+        "y": 1460,
+        "wires": [
+            [
+                "9481371d.4daac8"
+            ]
+        ]
+    },
+    {
+        "id": "9481371d.4daac8",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "deltaV",
+        "func": "var  deltav = 0.00;\nif (msg.payload[13]){\n    deltav = (250*(msg.payload[13]+ msg.payload[12]- msg.payload[0]- msg.payload[1]));\n}\nflow.set(\"deltav\", deltav);\nmsg.payload = deltav.toFixed(1);\nmsg.topic = \"deltav\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1130,
+        "y": 1460,
+        "wires": [
+            [
+                "fa99e8d7.99a3d8"
+            ]
+        ]
+    },
+    {
+        "id": "25daf6a5.44cdfa",
+        "type": "comment",
+        "z": "e4b5f6.297b9a08",
+        "name": "start data processing",
+        "info": "",
+        "x": 130,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "7fad3453.b216bc",
+        "type": "delay",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1000",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 800,
+        "y": 500,
+        "wires": [
+            [
+                "696af9b7.fa1b78"
+            ]
+        ]
+    },
+    {
+        "id": "ce3ab761.ce9c88",
+        "type": "serial out",
+        "z": "e4b5f6.297b9a08",
+        "name": "TX UD18 TESTER",
+        "serial": "4092feda.8b16c",
+        "x": 1310,
+        "y": 2340,
+        "wires": []
+    },
+    {
+        "id": "e56bfbcb.1723f8",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "[-] key code",
+        "func": "// 0x03: refresh screen\n// (WHreset] = [ff 55 11 03 01 00 00 00 00 51]\n// (TimeReset) [ff 55 11 03 03 00 00 00 00 53] \n// [+] ff 55 11 03 34 00 00 00 00 0c \nmsg.payload = Buffer.from([0xff, 0x55, 0x11, 0x03, 0x34, 0x00, 0x00, 0x00, 0x00, 0x0C ]);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1030,
+        "y": 2280,
+        "wires": [
+            [
+                "ce3ab761.ce9c88"
+            ]
+        ]
+    },
+    {
+        "id": "28e8b574.c71c6a",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "[ENTER] code",
+        "func": "\nmsg.payload = Buffer.from([0xff, 0x55, 0x11, 0x03, 0x32, 0x00, 0x00, 0x00, 0x00, 0x02 ]);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1040,
+        "y": 2400,
+        "wires": [
+            [
+                "ce3ab761.ce9c88"
+            ]
+        ]
+    },
+    {
+        "id": "620179ff.da2a28",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "[setup] code",
+        "func": "\nmsg.payload = Buffer.from([0xff, 0x55, 0x11, 0x03, 0x31, 0x00, 0x00, 0x00, 0x00, 0x01 ]);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1030,
+        "y": 2360,
+        "wires": [
+            [
+                "ce3ab761.ce9c88"
+            ]
+        ]
+    },
+    {
+        "id": "bb381beb.c8a068",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "[+] key code",
+        "func": "msg.payload = Buffer.from([0xff, 0x55, 0x11, 0x03, 0x33, 0x00, 0x00, 0x00, 0x00, 0x03 ]);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1030,
+        "y": 2320,
+        "wires": [
+            [
+                "ce3ab761.ce9c88"
+            ]
+        ]
+    },
+    {
+        "id": "2c461add.3ceda6",
+        "type": "comment",
+        "z": "e4b5f6.297b9a08",
+        "name": "Test end charge",
+        "info": "Polling for end charge conditions",
+        "x": 120,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "e28a7186.376b4",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "test error conditions",
+        "func": "var errors = 0;\nif (flow.get(\"run\")==1) {\n     errors = flow.get(\"error\");\n     if (flow.get(\"onoff\") === 0) \n        errors |= 4;\n     // if (flow.get(\"bmode\") === 0) \n     //    errors |= 4;\n     if (flow.get(\"ahbatt\") > 1.5 *flow.get(\"bcap\")) \n        errors |= 8;\n     if (flow.get(\"esect\") > flow.get(\"timemax\"))  \n        errors |= 16;\n     //\n     if (flow.get(\"tbatt\") > flow.get(\"Tlimit\"))  \n        errors |= 32;\n     //  --- test max Vbatt\n     if ( flow.get(\"vb\") > flow.get(\"CFG_VBMAX\"))\n         errors |= 64;\n     if (flow.get(\"deltat\") > flow.get(\"dTlimit\"))  \n        errors |= 256;\n     if ((flow.get(\"esect\")>30) && (flow.get(\"deltav\") < flow.get(\"dVlimit\")))  \n         errors |= 512;\n    \n    flow.set(\"error\", errors);   \n    }\nmsg.payload = errors;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290,
+        "y": 1060,
+        "wires": [
+            [
+                "e4fa8ac0.72eb88"
+            ]
+        ]
+    },
+    {
+        "id": "e4fa8ac0.72eb88",
+        "type": "switch",
+        "z": "e4b5f6.297b9a08",
+        "name": "if any error",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 530,
+        "y": 1060,
+        "wires": [
+            [],
+            [
+                "48d51327.a8869c"
+            ]
+        ]
+    },
+    {
+        "id": "8172710e.83a02",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "RUN OFF",
+        "func": "flow.set(\"run\", 0);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e143dbd9.5c2fd8",
+        "type": "mysql",
+        "z": "e4b5f6.297b9a08",
+        "mydb": "87c6018f.346ab",
+        "name": "update record",
+        "x": 980,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5ff3b75f.fa2648",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "query:  close",
+        "func": "if (flow.get(\"LOGGING\") === \"MYSQL\") {\n  var rid = flow.get(\"tbid\");\n  var etime = flow.get(\"cmin\") + \":\"+ flow.get(\"csec\");\n//\n  msg.topic = \"UPDATE `batteries`.`battery` SET\";\n  msg.topic +=\" `e_time` = '\"+etime+\"',\";\n  msg.topic +=\" `ah` = '\"+flow.get(\"ahbatt\")+\"' \";\n  msg.topic +=\" WHERE `battery`.`file` = '\"+ rid+\"' \";\n  msg.topic +=\" LIMIT 1\" ;\n  return msg;\n} else {\n  return [[]];\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 790,
+        "y": 920,
+        "wires": [
+            [
+                "e143dbd9.5c2fd8"
+            ]
+        ]
+    },
+    {
+        "id": "48d51327.a8869c",
+        "type": "link out",
+        "z": "e4b5f6.297b9a08",
+        "name": "error",
+        "links": [
+            "8e6a4d6f.38734"
+        ],
+        "x": 655,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "da802f39.f72c5",
+        "type": "link in",
+        "z": "e4b5f6.297b9a08",
+        "name": "test end",
+        "links": [
+            "8737239d.b28fc"
+        ],
+        "x": 135,
+        "y": 1060,
+        "wires": [
+            [
+                "e28a7186.376b4"
+            ]
+        ]
+    },
+    {
+        "id": "6b9e475e.ffa0c8",
+        "type": "inject",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.6",
+        "x": 230,
+        "y": 2020,
+        "wires": [
+            [
+                "344551f3.a27b4e",
+                "865c88ed.ad9a08"
+            ]
+        ]
+    },
+    {
+        "id": "a99f3d2e.1fa5a",
+        "type": "inject",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "topic": "trigger",
+        "payload": "\"\"",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.2",
+        "x": 160,
+        "y": 2500,
+        "wires": [
+            [
+                "3a0d72e2.9bb53e",
+                "21505e12.4e3f52",
+                "13eaffd9.35aaa"
+            ]
+        ]
+    },
+    {
+        "id": "1678768a.448e89",
+        "type": "inject",
+        "z": "e4b5f6.297b9a08",
+        "name": "refresh",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "4.3",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.6",
+        "x": 840,
+        "y": 2540,
+        "wires": [
+            [
+                "a693e8f2.f617f8"
+            ]
+        ]
+    },
+    {
+        "id": "9b7c436.9384fc",
+        "type": "ui_template",
+        "z": "e4b5f6.297b9a08",
+        "group": "7bba9908.2652d8",
+        "name": "",
+        "order": 2,
+        "width": "2",
+        "height": "6",
+        "format": "<div layout=\"row\" layout-align=\"start center\" >\n  <span flex >FCOP</span><span  flex >&nbsp;</span></div>\n<div layout=\"row\" layout-align=\"start center\" style=\"border-bottom:  medium solid #0eb8c0\">\n  <span  flex >&nbsp;</span><span flex style=\"color: red\">ON</span> </div>\n\n<div layout=\"row\" layout-align=\"start center\" >\n  <span flex >TC</span><span  flex >&nbsp;</span></div>\n<div layout=\"row\" layout-align=\"start center\" style=\"border-bottom:  medium solid #0eb8c0\">\n  <span  flex >&nbsp;</span><span flex style=\"color: red\">{{msg.payload.tc}}</span> </div>\n  \n<div layout=\"row\" layout-align=\"start center\" >\n  <span flex >OvrC</span><span  flex >&nbsp;</span></div>\n<div layout=\"row\" layout-align=\"start center\" style=\"border-bottom:  medium solid #0eb8c0\">\n  <span  flex >&nbsp;</span><span flex style=\"color: red\">{{msg.payload.c}}</span> </div>\n  \n<div layout=\"row\" layout-align=\"start center\" >\n  <span flex >OvrV</span><span  flex >&nbsp;</span></div>\n<div layout=\"row\" layout-align=\"start center\" style=\"border-bottom:  medium solid #0eb8c0\">\n <span  flex >&nbsp;</span> <span flex style=\"color: red\">{{msg.payload.v}}</span> </div>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "templateScope": "local",
+        "x": 1240,
+        "y": 2520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a693e8f2.f617f8",
+        "type": "function",
+        "z": "e4b5f6.297b9a08",
+        "name": "UD18 limits",
+        "func": "\nvar vtc = flow.get(\"CFG_MAXTIME\").toFixed(0);\nvar vbm = flow.get(\"CFG_VBMAX\").toFixed(2);\nvar vc;\nvar mode = flow.get(\"usemode\");\nswitch (mode) {\n  case \"STEST\":\n   //   tmp += \"Over -C 2500<br>\";\n      vc = 2500;\n      break;\n  case \"TRICKLE\":\n  case \"SLOW\":\n  case \"FAST\":\n  case \"CV\":\n      vc = (flow.get(\"iset\")+ 10).toFixed(0);\n  }\n\nvar msg2 = { \"payload\": { \"tc\" : vtc, \"c\" : vc, \"v\" : vbm }};\nreturn msg2;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1030,
+        "y": 2500,
+        "wires": [
+            [
+                "c4ba7586.367e08",
+                "9b7c436.9384fc",
+                "c4dbd2d8.3a778"
+            ]
+        ]
+    },
+    {
+        "id": "c4dbd2d8.3a778",
+        "type": "debug",
+        "z": "e4b5f6.297b9a08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1250,
+        "y": 2560,
+        "wires": []
+    },
+    {
+        "id": "71081431.d5ae9c",
+        "type": "comment",
+        "z": "e4b5f6.297b9a08",
+        "name": "UD18 - optional",
+        "info": "",
+        "x": 840,
+        "y": 2200,
+        "wires": []
+    },
+    {
+        "id": "c4ba7586.367e08",
+        "type": "link out",
+        "z": "e4b5f6.297b9a08",
+        "name": "data changed",
+        "links": [
+            "13313975.80e4d7"
+        ],
+        "x": 1195,
+        "y": 2480,
+        "wires": []
+    },
+    {
+        "id": "b9171517.4d5308",
+        "type": "comment",
+        "z": "e4b5f6.297b9a08",
+        "name": "Common",
+        "info": "",
+        "x": 100,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "2b92a888.1890a8",
+        "type": "modbus-client",
+        "z": "",
+        "name": "RD6006",
+        "clienttype": "simpleser",
+        "bufferCommands": false,
+        "stateLogEnabled": false,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": "14502",
+        "tcpType": "DEFAULT",
+        "serialPort": "COM7",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "115200",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "unit_id": "1",
+        "commandDelay": "5",
+        "clientTimeout": "3000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": false
+    },
+    {
+        "id": "df1c70e1.a4ee",
+        "type": "MySQLdatabase",
+        "z": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "batteries",
+        "tz": ""
+    },
+    {
+        "id": "ffb283b5.7f0cf",
+        "type": "ui_group",
+        "z": "",
+        "name": "Group 2",
+        "tab": "653d7645.59fcb8",
+        "order": 2,
+        "disp": false,
+        "width": "8",
+        "collapse": false
+    },
+    {
+        "id": "70ca806d.d7591",
+        "type": "ui_group",
+        "z": "",
+        "name": "rtdat",
+        "tab": "653d7645.59fcb8",
+        "order": 1,
+        "disp": false,
+        "width": "8",
+        "collapse": false
+    },
+    {
+        "id": "1d9d1c49.f32414",
+        "type": "ui_group",
+        "z": "",
+        "name": "Group 3",
+        "tab": "653d7645.59fcb8",
+        "order": 3,
+        "disp": false,
+        "width": "8",
+        "collapse": false
+    },
+    {
+        "id": "7bba9908.2652d8",
+        "type": "ui_group",
+        "z": "",
+        "name": "UD18",
+        "tab": "653d7645.59fcb8",
+        "order": 4,
+        "disp": true,
+        "width": "2",
+        "collapse": false
+    },
+    {
+        "id": "4092feda.8b16c",
+        "type": "serial-port",
+        "z": "",
+        "serialport": "COM6",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "0xff",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "36",
+        "bin": "bin",
+        "out": "count",
+        "addchar": "",
+        "responsetimeout": "3000"
+    },
+    {
+        "id": "87c6018f.346ab",
+        "type": "MySQLdatabase",
+        "z": "a6941e78.e5a6b",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "batteries",
+        "tz": "+1"
+    },
+    {
+        "id": "653d7645.59fcb8",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Charger02",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
